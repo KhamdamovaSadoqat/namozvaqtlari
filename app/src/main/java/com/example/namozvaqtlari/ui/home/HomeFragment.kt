@@ -163,7 +163,4 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         calendar.set(SECOND, 0)
         calendar.set(MILLISECOND, 0)
     }
-
-
-
 }

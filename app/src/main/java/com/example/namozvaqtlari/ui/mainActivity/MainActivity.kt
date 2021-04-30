@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showProgress() {
-        progress.setContentView(R.layout.progress_dialog)
+        progress.setContentView(R.layout.dialog_progress)
         progress.setCancelable(false)
         progress.show()
     }

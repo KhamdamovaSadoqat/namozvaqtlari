@@ -108,8 +108,8 @@ class RadioFragment : Fragment() {
 
     private fun getList():List<HomeItem>{
         return listOf(
-            HomeItem(1,"Azon FM",requireContext().let { ContextCompat.getDrawable(it,R.drawable.azon_fm)!! }),
-            HomeItem(2,"Navro'z FM",requireContext().let { ContextCompat.getDrawable(it,R.drawable.navroz_fm)!! }),
+            HomeItem(1,"Azon FM",requireContext().let { ContextCompat.getDrawable(it,R.drawable.fm_azon)!! }),
+            HomeItem(2,"Navro'z FM",requireContext().let { ContextCompat.getDrawable(it,R.drawable.fm_navruz)!! }),
         )
     }
 }

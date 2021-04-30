@@ -36,6 +36,7 @@ class TimeHelper(private val location: Location) {
 
         val prayerTimes = azan.getPrayerTimes(simpleDate)
         times = prayerTimes.times
+        Log.d("Times", "prayerTime: ${times[0]}, ${times[1]}, ${times[2]}, ${times[3]}, ${times[4]}, ${times[5]}, ")
     }
 
     private fun checkIsTimeAvailable() {

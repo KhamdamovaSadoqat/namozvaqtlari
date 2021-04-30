@@ -20,7 +20,6 @@ import com.example.namozvaqtlari.databinding.FragmentPrayerTimeBinding
 import com.example.namozvaqtlari.helper.LocationHelper
 import com.example.namozvaqtlari.model.Times
 
-
 class PrayerTimeFragment : Fragment() {
     private val TAG = "PrayerTimeFragment"
 
@@ -40,6 +39,7 @@ class PrayerTimeFragment : Fragment() {
         prefs = requireActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
         val location = getSavedLocation()
         location?.let { loc ->
+            Log.d("------------", "onCreateView: ${loc.latitude}, ${loc.longitude}")
             val time = viewModel.getDate(loc)
             Log.d("------------", "onCreateView: ${time}")
             setTime(time)
@@ -74,7 +74,6 @@ class PrayerTimeFragment : Fragment() {
             location.latitude = latitudeSt.toDouble()
             location.longitude = longtitudeSt.toDouble()
         }
-
         Log.d(TAG, "getSavedLocation: ${location?.latitude}")
         return location
     }

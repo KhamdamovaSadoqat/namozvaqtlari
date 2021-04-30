@@ -10,11 +10,11 @@
         android:name="com.example.namozvaqtlari.ui.media.AudioFragment"
         android:label="AudioFragment"
         tools:layout="@layout/fragment_audio"/>
-    <fragment
-        android:id="@+id/youTubeFragment2"
-        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"
-        android:label="YouTubeFragment"
-        tools:layout="@layout/fragment_you_tube"/>
+<!--    <fragment-->
+<!--        android:id="@+id/youTubeFragment2"-->
+<!--        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"-->
+<!--        android:label="YouTubeFragment"-->
+<!--        tools:layout="@layout/fragment_you_tube"/>-->
     <fragment
         android:id="@+id/radioFragment"
         android:name="com.example.namozvaqtlari.ui.media.RadioFragment"
