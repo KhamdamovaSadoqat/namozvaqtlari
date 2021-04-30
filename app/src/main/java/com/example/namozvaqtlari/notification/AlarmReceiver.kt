@@ -124,7 +124,9 @@ class AlarmReceiver() : BroadcastReceiver() {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
-            ScheduleAlarm.with(context).schedule(time, pIntent)
+//            ScheduleAlarm.with(context).schedule(time, pIntent)
+            val currentTime = System.currentTimeMillis()+10000
+            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
         }
 
         private fun getLocFromPrefs(context: Context): Location {

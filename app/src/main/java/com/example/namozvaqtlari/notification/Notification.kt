@@ -9,7 +9,6 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.namozvaqtlari.R
 
 
-// TODO - should make more optimize Notification class
 class Notification(private val context: Context) {
 
     fun makeNotification() {
