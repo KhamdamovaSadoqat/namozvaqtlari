@@ -11,15 +11,16 @@
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/gradient_8">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
 
@@ -30,7 +31,8 @@
                 android:id="@+id/prayerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text='@{prayer.name }' />
+                android:text='@{prayer.name }'
+                android:gravity="center"/>
 
             <TextView
                 android:textSize="18sp"

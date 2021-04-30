@@ -105,7 +105,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             HomeItem(
                 2,
                 "Duo",
-                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_dua_hands) }!!
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_quran_rehal) }!!
             ),
             HomeItem(
                 3,
