@@ -2,7 +2,6 @@ package com.example.namozvaqtlari.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
 import android.os.*
@@ -12,21 +11,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.namozvaqtlari.R
+import com.example.namozvaqtlari.constants.MY_PREFS
+import com.example.namozvaqtlari.constants.NOTIFICATION_ENABLED
 import com.example.namozvaqtlari.databinding.FragmentHomeBinding
 import com.example.namozvaqtlari.helper.*
 import com.example.namozvaqtlari.model.HomeItem
 import com.example.namozvaqtlari.model.Times
+import com.example.namozvaqtlari.notification.AlarmReceiver
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.*
+import java.util.concurrent.TimeUnit
+import kotlin.math.log
 
 
 class HomeFragment : Fragment(), AdapterHome.RvItemListener {
@@ -63,12 +71,28 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         mChronometer.base = SystemClock.elapsedRealtime()
         mChronometer.start()
         mChronometer.setOnChronometerTickListener { setTime() }
-        binding.linear.setOnClickListener {
-            findNavController().navigate(R.id.prayerTimeFragment)
+
+
+        NOTIFICATION_ENABLED = getNotificationStatus()
+        Log.d("-------------", "onCreateView: notificationstatus: $NOTIFICATION_ENABLED")
+
+        if(NOTIFICATION_ENABLED){
+            AlarmReceiver.setAlarm(requireContext())
         }
+
         setRv()
 //        getLocation()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.linear.setOnClickListener {
+            findNavController().navigate(R.id.prayerTimeFragment)
+        }
+        binding.settings.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
     }
 
     override fun onClicked(HomeItem: HomeItem) {
@@ -92,6 +116,8 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
                 R.id.calendarFragment
             )
         }
+
+
     }
 
     private fun getList(): List<HomeItem> {
@@ -130,7 +156,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             HomeItem(
                 6,
                 "Kalendar",
-                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_calendar) }!!
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_calendar_ultrathin) }!!
             )
         )
     }
@@ -163,4 +189,11 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         calendar.set(SECOND, 0)
         calendar.set(MILLISECOND, 0)
     }
+
+    fun getNotificationStatus(): Boolean{
+        val prefs = requireContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
+        return prefs.getBoolean("NOTIFICATION_ENABLED", true)
+    }
+
+
 }

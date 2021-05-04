@@ -75,8 +75,7 @@ class TimeHelper(private val location: Location) {
             )
             if (cal.timeInMillis > now) return cal.timeInMillis
         }
-        cal
-            .set(year, month, day, times[5].hour, times[5].minute)
+        cal.set(year, month, day, times[5].hour, times[5].minute)
 
         return cal.timeInMillis
 

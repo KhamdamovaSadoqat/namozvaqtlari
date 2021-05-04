@@ -2,19 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     tools:ignore="MissingDefaultResource">
 
 
     <LinearLayout
         android:padding="12dp"
         android:id="@+id/cv_card"
-        android:layout_width="80sp"
+        android:layout_width="match_parent"
         android:layout_height="110sp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:checkable="true"
+        android:layout_margin="4dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         app:cardElevation="28dp"
@@ -40,7 +37,8 @@
             android:layout_marginBottom="4dp"
             android:gravity="center"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:hint="compas"/>
 
     </LinearLayout>
 </layout>
