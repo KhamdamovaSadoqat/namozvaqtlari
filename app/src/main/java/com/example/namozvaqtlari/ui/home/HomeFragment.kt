@@ -1,22 +1,19 @@
 package com.example.namozvaqtlari.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.namozvaqtlari.R
@@ -77,7 +74,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
                 R.id.tasbeehFragment
             )
             2 -> findNavController().navigate(
-                R.id.prayerFragment
+                R.id.prayerNameFragment
             )
             3 -> findNavController().navigate(
                 R.id.compassFragment
@@ -85,15 +82,18 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             4 -> findNavController().navigate(
                 R.id.mosqueFragment
             )
-            5 -> findNavController().navigate(
-                R.id.mediaFragment
-            )
+            5 -> launchZoomUrl()
             6 -> findNavController().navigate(
                 R.id.calendarFragment
             )
         }
     }
-
+    private fun launchZoomUrl() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=SMNHZR1u6KQ"))
+        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivity(intent)
+        }
+    }
     private fun getList(): List<HomeItem> {
         return listOf(
 
@@ -124,8 +124,8 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             ),
             HomeItem(
                 5,
-                "Ma'ruza",
-                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_cassette) }!!
+                "Makka live",
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_youtube) }!!
             ),
             HomeItem(
                 6,

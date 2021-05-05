@@ -53,22 +53,13 @@
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
     <fragment
-        android:id="@+id/mediaFragment"
-        android:name="com.example.namozvaqtlari.ui.media.MediaFragment"
-        android:label="MediaFragment"
-        tools:layout="@layout/fragment_media" />
-    <fragment
-        android:id="@+id/audioFragment"
-        android:name="com.example.namozvaqtlari.ui.media.AudioFragment"
-        android:label="AudioFragment" />
-    <fragment
-        android:id="@+id/radioFragment2"
-        android:name="com.example.namozvaqtlari.ui.media.RadioFragment"
-        android:label="RadioFragment" />
-    <fragment
         android:id="@+id/youTubeFragment"
-        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"
-        android:label="YouTubeFragment" />
+        android:name="com.example.namozvaqtlari.ui.youTube.YouTubeFragment"
+        android:label="AudioFragment" />
+<!--    <fragment-->
+<!--        android:id="@+id/youTubeFragment"-->
+<!--        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"-->
+<!--        android:label="YouTubeFragment" />-->
     <fragment
         android:id="@+id/prayerFragment"
         android:name="com.example.namozvaqtlari.ui.prayer.PrayerFragment"

@@ -2,6 +2,7 @@ package com.example.namozvaqtlari.ui.prayer
 
 import com.example.namozvaqtlari.model.PrayerText
 
+
 class Prayer {
     //     var tf:Typeface= Farsi.get
 //    Typeface tf = Farsi.GetFarsiFont(this);
