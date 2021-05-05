@@ -1,15 +1,26 @@
 package com.example.namozvaqtlari.notification
 
+import android.app.AlarmManager
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.media.RingtoneManager
 import android.os.Build
+import android.os.SystemClock
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.namozvaqtlari.R
+import com.example.namozvaqtlari.ui.mainActivity.MainActivity
 
 
 class Notification(private val context: Context) {
+
+    val TAG = "Notification class"
 
     fun makeNotification() {
 
@@ -50,4 +61,6 @@ class Notification(private val context: Context) {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+
 }

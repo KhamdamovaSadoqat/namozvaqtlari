@@ -14,12 +14,11 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.namozvaqtlari.R
-import com.example.namozvaqtlari.constants.DEFAULT_LOCATION
-import com.example.namozvaqtlari.constants.LATITUDE
-import com.example.namozvaqtlari.constants.LONGITUDE
-import com.example.namozvaqtlari.constants.MY_PREFS
+import com.example.namozvaqtlari.constants.*
 import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.ui.mainActivity.MainActivity
+import java.util.*
+import kotlin.time.days
 
 
 const val CHANNEL_ID = "alarm_channel"
@@ -30,7 +29,7 @@ const val ALARM_KEY = "alarm_key"
 
 const val NOTIFICATION_ID = 1000
 
-class AlarmReceiver() : BroadcastReceiver() {
+class AlarmReceiver : BroadcastReceiver() {
 
     private val TAG = AlarmReceiver::class.java.simpleName
 
@@ -66,6 +65,8 @@ class AlarmReceiver() : BroadcastReceiver() {
         setRemainderAlarm(context)
 
     }
+
+
 
     private fun createNotificationChannel(context: Context) {
 
@@ -107,8 +108,11 @@ class AlarmReceiver() : BroadcastReceiver() {
     companion object {
 
         fun setAlarm(context: Context) {
-            cancelReminderAlarm(context)
-            setRemainderAlarm(context)
+            if(NOTIFICATION_ENABLED){
+                Log.d("------------", "setAlarm: working")
+                cancelReminderAlarm(context)
+                setRemainderAlarm(context)
+            }
         }
 
         private fun setRemainderAlarm(context: Context) {
@@ -124,22 +128,27 @@ class AlarmReceiver() : BroadcastReceiver() {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
-//            ScheduleAlarm.with(context).schedule(time, pIntent)
-            val currentTime = System.currentTimeMillis()+10000
-            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
+            var data = Date(time)
+            Log.d("-----------", "setRemainderAlarm: time: ${data.hours}: ${data.minutes}, day: ${data.date}")
+            ScheduleAlarm.with(context).schedule(time, pIntent)
+            Log.d("-------------", "setRemainderAlarm: ")
+//            val currentTime = System.currentTimeMillis() + 5000
+//            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
         }
 
         private fun getLocFromPrefs(context: Context): Location {
             val prefs = context.getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
-            val lat = prefs.getString(LATITUDE, "")?.toDouble()
-            val long = prefs.getString(LONGITUDE, "")?.toDouble()
+            val lat = prefs.getString(LATITUDE, "")
+            val long = prefs.getString(LONGITUDE, "")
 
             Log.d("AlarmReceiver", "getLocFromPrefs: lat: $lat long: $long")
 
-            if (lat != null && long != null) {
+            if (!lat.isNullOrEmpty() && !long.isNullOrEmpty()) {
                 val location = Location("")
-                location.latitude = lat
-                location.longitude = long
+
+                location.latitude = lat.toDouble()
+                location.longitude = long.toDouble()
+
                 return location
             }
 
@@ -159,12 +168,18 @@ class AlarmReceiver() : BroadcastReceiver() {
             manager.cancel(pIntent)
         }
 
+        fun cancelAlarm(context: Context){
+            cancelReminderAlarm(context)
+        }
+
     }
 
     private class ScheduleAlarm private constructor(
         private val am: AlarmManager
     ) {
         fun schedule(time: Long, pi: PendingIntent?) {
+            Log.d("--------", "schedule: working")
+            Log.d("--------", "schedule: time: $time")
             am.setExact(AlarmManager.RTC_WAKEUP, time, pi)
         }
 

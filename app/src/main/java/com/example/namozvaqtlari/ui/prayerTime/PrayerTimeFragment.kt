@@ -18,6 +18,7 @@ import com.example.namozvaqtlari.constants.LONGITUDE
 import com.example.namozvaqtlari.constants.MY_PREFS
 import com.example.namozvaqtlari.databinding.FragmentPrayerTimeBinding
 import com.example.namozvaqtlari.helper.LocationHelper
+import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.model.Times
 
 class PrayerTimeFragment : Fragment() {
@@ -27,6 +28,7 @@ class PrayerTimeFragment : Fragment() {
     private lateinit var viewModel: PrayerTimeViewModel
     private lateinit var locHelper: LocationHelper
     private lateinit var prefs: SharedPreferences
+    private lateinit var timeHelper: TimeHelper
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -44,6 +46,11 @@ class PrayerTimeFragment : Fragment() {
             Log.d("------------", "onCreateView: ${time}")
             setTime(time)
         }
+
+        timeHelper = location?.let { TimeHelper(it) }!!
+
+        Log.d("-------------", "onCreateView: getAlarmTime: ${timeHelper.getAlarmTime()}")
+        Log.d("-------------", "onCreateView: currentTimeM: ${System.currentTimeMillis()}")
         return binding.root
     }
 

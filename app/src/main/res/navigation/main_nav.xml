@@ -65,10 +65,10 @@
         android:id="@+id/radioFragment2"
         android:name="com.example.namozvaqtlari.ui.media.RadioFragment"
         android:label="RadioFragment" />
-    <fragment
-        android:id="@+id/youTubeFragment"
-        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"
-        android:label="YouTubeFragment" />
+<!--    <fragment-->
+<!--        android:id="@+id/youTubeFragment"-->
+<!--        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"-->
+<!--        android:label="YouTubeFragment" />-->
     <fragment
         android:id="@+id/prayerFragment"
         android:name="com.example.namozvaqtlari.ui.prayer.PrayerFragment"
@@ -78,6 +78,10 @@
         android:id="@+id/prayerList"
         android:name="com.example.namozvaqtlari.ui.prayer.PrayerList"
         android:label="PrayerList" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.namozvaqtlari.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 
 
 </navigation>
