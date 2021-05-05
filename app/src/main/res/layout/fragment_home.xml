@@ -31,18 +31,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Chronometer
-                android:id="@+id/chronometer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="48sp" />
+            <ImageView
+                android:id="@+id/prayer_icon_img"
+                android:layout_marginTop="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_sun"/>
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/home_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23.02.2021"
-                android:textSize="32sp" />
+                android:text="12:32"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/prayer_time_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Peshin"
+                android:textSize="16sp"
+                android:textColor="#393636"
+                />
+
+            <!--            <Chronometer-->
+<!--                android:id="@+id/chronometer"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textSize="48sp" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/date"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="23.02.2021"-->
+<!--                android:textSize="32sp" />-->
         </LinearLayout>
 
 

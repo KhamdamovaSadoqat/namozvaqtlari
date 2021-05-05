@@ -67,18 +67,17 @@ class TimeHelper(private val location: Location) {
         (times.indices).forEach loop@{
             if (it == 1) return@loop
             cal.set(year, month, day, times[it].hour, times[it].minute)
-            Log.d(
-                "------------",
-                "getAlarmTime: ${cal.get(Calendar.DAY_OF_MONTH)}  ${cal.get(Calendar.HOUR_OF_DAY)} ${
-                    cal.get(Calendar.MINUTE)
-                }"
-            )
+//            Log.d(
+//                "------------",
+//                "getAlarmTime: ${cal.get(Calendar.DAY_OF_MONTH)}  ${cal.get(Calendar.HOUR_OF_DAY)} ${
+//                    cal.get(Calendar.MINUTE)
+//                }"
+//            )
             if (cal.timeInMillis > now) return cal.timeInMillis
         }
         cal.set(year, month, day, times[5].hour, times[5].minute)
 
         return cal.timeInMillis
-
     }
 
     fun getAllTimes(): Times {
@@ -92,8 +91,4 @@ class TimeHelper(private val location: Location) {
             times[5].toString()
         )
     }
-
-//    fun getTime(date: String): Times{
-//        return timesRepository.getTime(date)
-//    }
 }

@@ -20,6 +20,8 @@ import com.example.namozvaqtlari.databinding.FragmentPrayerTimeBinding
 import com.example.namozvaqtlari.helper.LocationHelper
 import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.model.Times
+import java.util.*
+import kotlin.math.log
 
 class PrayerTimeFragment : Fragment() {
     private val TAG = "PrayerTimeFragment"
@@ -54,6 +56,24 @@ class PrayerTimeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        getIcon()
+        var icon = getIcon()
+        Log.d("-------------", "onResume: icon $icon")
+
+        when (icon) {
+//            0 -> binding.prayerIconImg.setImageResource(R.drawable.ic_subah_prayer)
+//            2 -> binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
+//            3 -> binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
+//            4 -> binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
+//            5 -> binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
+        }
+
+
+
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setTime(time: Times) {
         val fajr = time.fajr.split(":")
@@ -83,5 +103,26 @@ class PrayerTimeFragment : Fragment() {
         }
         Log.d(TAG, "getSavedLocation: ${location?.latitude}")
         return location
+    }
+
+    fun getIcon(): Int {
+        var exactTime = timeHelper.getAlarmTime()
+        var allTimes = timeHelper.getAllTimes()
+
+        val date = Calendar.getInstance()
+        date.timeInMillis = exactTime
+
+        val timeString = "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00"
+        Log.d("-------------", "getIcon: exactTime: $exactTime")
+        Log.d("-------------", "getIcon: timeString: $timeString")
+        Log.d("-------------", "getIcon: allTime: $allTimes")
+
+        if (allTimes.fajr == timeString) return 0
+        else if (allTimes.thuhr == timeString) return 2
+        else if (allTimes.assr == timeString) return 3
+        else if (allTimes.maghrib == timeString) return 4
+        else if (allTimes.ishaa == timeString) return 5
+
+        return 0
     }
 }
