@@ -66,7 +66,7 @@ class TimeHelper(private val location: Location) {
         val now = Date().time
         (times.indices).forEach loop@{
             if (it == 1) return@loop
-            cal.set(year, month, day, times[it].hour, times[it].minute)
+            cal.set(year, month, day, times[it].hour, times[it].minute, times[it].second)
 //            Log.d(
 //                "------------",
 //                "getAlarmTime: ${cal.get(Calendar.DAY_OF_MONTH)}  ${cal.get(Calendar.HOUR_OF_DAY)} ${

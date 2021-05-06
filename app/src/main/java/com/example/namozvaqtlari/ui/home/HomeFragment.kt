@@ -17,27 +17,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.work.Data
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import com.airbnb.lottie.utils.Utils
 import com.example.namozvaqtlari.R
-import com.example.namozvaqtlari.constants.LATITUDE
-import com.example.namozvaqtlari.constants.LONGITUDE
-import com.example.namozvaqtlari.constants.MY_PREFS
-import com.example.namozvaqtlari.constants.NOTIFICATION_ENABLED
+import com.example.namozvaqtlari.constants.*
 import com.example.namozvaqtlari.databinding.FragmentHomeBinding
 import com.example.namozvaqtlari.helper.*
 import com.example.namozvaqtlari.model.HomeItem
 import com.example.namozvaqtlari.model.Times
 import com.example.namozvaqtlari.notification.AlarmReceiver
+import com.example.namozvaqtlari.utils.DateUtils
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.Calendar.*
-import java.util.concurrent.TimeUnit
-import kotlin.math.log
+import kotlin.time.ExperimentalTime
 
 
 class HomeFragment : Fragment(), AdapterHome.RvItemListener {
@@ -55,11 +47,9 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
     private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var timeHelper: TimeHelper
     private lateinit var prefs: SharedPreferences
-
-    //   " private lateinit var locationHelper2: LocationHelper2
-//   " private lateinit var prefs: SharedPreferences
     private lateinit var locationManager: LocationManager
 
+    @ExperimentalTime
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,13 +58,12 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         prefs = requireActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
         val location = getSavedLocation()
-        timeHelper = location?.let { TimeHelper(it) }!!
+        timeHelper = location?.let { TimeHelper(it) }?: TimeHelper(DEFAULT_LOCATION)
 
-//        mChronometer = binding.chronometer
-//        mChronometer.base = SystemClock.elapsedRealtime()
-//        mChronometer.start()
-//        mChronometer.setOnChronometerTickListener { setTime() }
-
+        mChronometer = binding.chronometer
+        mChronometer.base = SystemClock.elapsedRealtime()
+        mChronometer.start()
+        mChronometer.setOnChronometerTickListener { setTime() }
 
         NOTIFICATION_ENABLED = getNotificationStatus()
         Log.d("-------------", "onCreateView: notificationstatus: $NOTIFICATION_ENABLED")
@@ -82,6 +71,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         if (NOTIFICATION_ENABLED) {
             AlarmReceiver.setAlarm(requireContext())
         }
+
 
         setRv()
         setIcon()
@@ -179,6 +169,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
 
     fun getNotificationStatus(): Boolean {
         val prefs = requireContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
+        Log.d("-------------", "getNotificationStatus: ${prefs.getBoolean("NOTIFICATION_ENABLED", true)}")
         return prefs.getBoolean("NOTIFICATION_ENABLED", true)
     }
 
@@ -205,29 +196,36 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
 
     fun setIcon() {
         getIcon()
+        val date = DateUtils()
         var icon = getIcon()
+        var allTimes = timeHelper.getAllTimes()
         Log.d("-------------", "onResume: icon $icon")
 
         when (icon) {
             0 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_subah_prayer)
                 binding.prayerTimeName.text = "Bomdod"
+                binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
             }
             2 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTimeName.text = "Peshin"
+                binding.homeTime.text = allTimes.thuhr
             }
             3 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTimeName.text = "Asr"
+                binding.homeTime.text = allTimes.assr
             }
             4 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
                 binding.prayerTimeName.text = "Shom"
+                binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
             }
             5 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTimeName.text = "Xufton"
+                binding.homeTime.text = allTimes.ishaa
             }
         }
     }
@@ -260,10 +258,29 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         return location
     }
 
-//    private fun setTime() {
-//        val curentTime = System.currentTimeMillis()
-//        binding.chronometer.text = timeFormat.format(curentTime)
-//        binding.date.text = dateFormat.format(curentTime)
-//    }
+    @ExperimentalTime
+    private fun setTime() {
+        val date = DateUtils()
+        val currentTime = System.currentTimeMillis()
+        val exactTime = timeHelper.getAlarmTime()
+        var settingTime = exactTime - currentTime
+
+        Log.d("-------------", "setTime: currentTime: $currentTime")
+        Log.d("-------------", "setTime: exactTime  : $exactTime")
+        Log.d("-------------", "setTime: settingTime: $settingTime")
+
+//        binding.chronometer.text = "${timeFormat.format(settingTime)}"
+        val h = (settingTime/3600000).toInt()
+        val m = ((settingTime - h * 3600000) / 60000).toInt()
+        val s = ((settingTime - h * 3600000 - m* 60000) / 1000 ).toInt()
+
+        Log.d("-------------", "setTime: h: $h")
+        Log.d("-------------", "setTime: m: $m")
+        Log.d("-------------", "setTime: s: $s")
+
+
+        binding.chronometer.text = date.timeToText(h, m, s)
+
+    }
 
 }

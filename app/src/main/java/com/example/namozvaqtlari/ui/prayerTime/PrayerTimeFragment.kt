@@ -20,6 +20,7 @@ import com.example.namozvaqtlari.databinding.FragmentPrayerTimeBinding
 import com.example.namozvaqtlari.helper.LocationHelper
 import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.model.Times
+import com.example.namozvaqtlari.utils.DateUtils
 import java.util.*
 import kotlin.math.log
 
@@ -59,19 +60,38 @@ class PrayerTimeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getIcon()
-        var icon = getIcon()
+        val date = DateUtils()
+        val allTimes = timeHelper.getAllTimes()
+        val icon = getIcon()
         Log.d("-------------", "onResume: icon $icon")
 
         when (icon) {
-//            0 -> binding.prayerIconImg.setImageResource(R.drawable.ic_subah_prayer)
-//            2 -> binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
-//            3 -> binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
-//            4 -> binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
-//            5 -> binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
+            0 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_subah_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
+                binding.prayerTimeName.text = "Bomdod"
+            }
+            2 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_zuhar_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
+                binding.prayerTimeName.text = "Peshin"
+            }
+            3 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_ramadn_azhar)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
+                binding.prayerTimeName.text = "Asr"
+            }
+            4 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_maghrib_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
+                binding.prayerTimeName.text = "Shom"
+            }
+            5 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_isha_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
+                binding.prayerTimeName.text = "Xufton"
+            }
         }
-
-
-
     }
 
     @SuppressLint("SetTextI18n")
