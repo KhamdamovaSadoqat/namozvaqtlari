@@ -122,7 +122,7 @@ class Tasbih @JvmOverloads constructor(
 
 
     fun startAnimation() {
-        mValueAnimator.duration = 1000
+        mValueAnimator.duration = 500
         mValueAnimator.interpolator = AccelerateDecelerateInterpolator()
         mValueAnimator.addUpdateListener(this)
         mIsAnimationStart = true

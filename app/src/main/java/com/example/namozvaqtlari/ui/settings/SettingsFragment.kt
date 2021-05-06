@@ -37,6 +37,7 @@ class SettingsFragment : Fragment() {
         binding.switchCompatNotification.setOnCheckedChangeListener { buttonView, isChecked ->
             NOTIFICATION_ENABLED = isChecked
             setNotificationToSharedPref(isChecked)
+            if (!isChecked) AlarmReceiver.cancelAlarm(requireContext())
         }
 //        if (binding.switchCompatNotification.isChecked) {
 //            AlarmReceiver.setAlarm(requireContext())
