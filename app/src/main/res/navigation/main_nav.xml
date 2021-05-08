@@ -27,16 +27,14 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.namozvaqtlari.ui.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_tasbeehFragment"
             app:destination="@id/tasbeehFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_prayerFragment"
-            app:destination="@id/prayerFragment" />
         <action
             android:id="@+id/action_homeFragment_to_compassFragment"
             app:destination="@id/compassFragment" />
@@ -49,17 +47,32 @@
         <action
             android:id="@+id/action_homeFragment_to_prayerTimeFragment"
             app:destination="@id/prayerTimeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_prayerNameFragment"
+            app:destination="@id/prayerNameFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.namozvaqtlari.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
 
     <fragment
         android:id="@+id/tasbeehFragment"
         android:name="com.example.namozvaqtlari.ui.tasbeeh.TasbeehFragment"
-        android:label="TasbeehFragment" />
+        android:label="TasbeehFragment"
+        tools:layout="@layout/fragment_tasbih"/>
+
+    <fragment
+        android:id="@+id/prayerNameFragment"
+        android:name="com.example.namozvaqtlari.ui.prayer.PrayerNameFragment"
+        android:label="PrayerNameFragment"
+        tools:layout="@layout/fragment_prayer_name">
+        <action
+            android:id="@+id/action_prayerNameFragment_to_prayerFragment"
+            app:destination="@id/prayerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/prayerFragment"
@@ -70,6 +83,12 @@
             android:id="@+id/action_prayerFragment_to_prayerList"
             app:destination="@id/prayerList" />
     </fragment>
+
+    <fragment
+        android:id="@+id/prayerList"
+        android:name="com.example.namozvaqtlari.ui.prayer.PrayerList"
+        android:label="PrayerList"
+        tools:layout="@layout/fragment_prayer_list"/>
 
     <fragment
         android:id="@+id/compassFragment"
@@ -94,15 +113,5 @@
         android:name="com.example.namozvaqtlari.ui.prayerTime.PrayerTimeFragment"
         android:label="prayer_time_fragment"
         tools:layout="@layout/fragment_prayer_time" />
-
-
-
-
-    <fragment
-        android:id="@+id/prayerList"
-        android:name="com.example.namozvaqtlari.ui.prayer.PrayerList"
-        android:label="PrayerList" />
-
-
 
 </navigation>

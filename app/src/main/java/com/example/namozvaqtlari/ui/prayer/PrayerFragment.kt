@@ -35,7 +35,7 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
         val oldList = Prayer().getList()
         val newList = separateListByTitleId(oldList)
         val adapter = AdapterPrayer(this)
-        adapter.setData(oldList)
+        adapter.setData(newList)
         binding.rvPrayerName.adapter = adapter
     }
 
@@ -48,14 +48,10 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
             if (list[i].titleId == _t){
                 if (list[i].titleId == _t) {
                     changedList.add(list[i])
-
                 }
-
             }
-
         }
         return changedList
-
     }
 
 

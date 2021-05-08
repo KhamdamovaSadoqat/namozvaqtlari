@@ -96,7 +96,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
                 R.id.action_homeFragment_to_tasbeehFragment
             )
             2 -> findNavController().navigate(
-                R.id.action_homeFragment_to_prayerFragment
+                R.id.action_homeFragment_to_prayerNameFragment
             )
             3 -> findNavController().navigate(
                 R.id.action_homeFragment_to_compassFragment
