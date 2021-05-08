@@ -103,7 +103,7 @@ class CompassFragment : Fragment(), SensorEventListener {
         intDegree = degree.toInt()
 
         Log.d("gps", "getLocation  : $degree")
-        binding.tvLocation.text = "$intDegree Degree "
+        binding.tvLocation.text = "$intDegree"
     }
 
     override fun onPause() {
