@@ -1,4 +1,4 @@
-package com.example.namozvaqtlari.custom
+package com.example.namozvaqtlari.ui.custom
 
 
 import android.animation.ValueAnimator
@@ -25,7 +25,7 @@ class Tasbih @JvmOverloads constructor(
 ) : View(context, attrs, defStyle), ValueAnimator.AnimatorUpdateListener {
 
     private var mValueAnimator = ValueAnimator.ofInt(1, 100)
-    private val sPaint = Paint()
+    private val mPaint = Paint()
     private val dp = resources.displayMetrics.density
     private var mBitmap: Bitmap? = null
     private var mAnimatedValue = 100
@@ -60,26 +60,6 @@ class Tasbih @JvmOverloads constructor(
             520 * dp,
             552 * dp
 
-
-//            -36 * dp, //4+4
-//            -28 * dp, //4+28  +12
-//            4 * dp, //4+4
-//            12 * dp, //4+40
-//            56 * dp,
-//            64 * dp,
-//            120 * dp,
-//            128 * dp,
-//            196 * dp,
-//            204 * dp,
-//            284 * dp,
-//            292 * dp,
-//            360 * dp,
-//            368 * dp,
-//            424 * dp,
-//            432 * dp,
-//            476 * dp,
-//            484 * dp,
-//            516 * dp
         )
         mListSizes = arrayListOf(
             (4 * dp).toInt(),
@@ -122,7 +102,7 @@ class Tasbih @JvmOverloads constructor(
 
 
     fun startAnimation() {
-        mValueAnimator.duration = 1000
+        mValueAnimator.duration = 500
         mValueAnimator.interpolator = AccelerateDecelerateInterpolator()
         mValueAnimator.addUpdateListener(this)
         mIsAnimationStart = true
@@ -139,12 +119,12 @@ class Tasbih @JvmOverloads constructor(
                     (mListSizes[i + 1] - mListSizes[i - 1]) * mAnimatedValue / 100 + mListSizes[i - 1]
                 when (i) {
                     2 -> {
-                        sPaint.alpha = 255 * mAnimatedValue / 100
+                        mPaint.alpha = 255 * mAnimatedValue / 100
                     }
                     16 -> {
-                        sPaint.alpha = 255 - 255 * mAnimatedValue / 100
+                        mPaint.alpha = 255 - 255 * mAnimatedValue / 100
                     }
-                    else -> sPaint.alpha = 255
+                    else -> mPaint.alpha = 255
                 }
 
                 getBitmap(size)?.let {
@@ -152,19 +132,19 @@ class Tasbih @JvmOverloads constructor(
                         it,
                         measuredWidth / 2 - it.width / 2f,
                         y,
-                        sPaint
+                        mPaint
                     )
                 }
 
             } else {
                 when (i) {
                     1 -> {
-                        sPaint.alpha = 255 * mAnimatedValue / 100
+                        mPaint.alpha = 255 * mAnimatedValue / 100
                     }
                     17 -> {
-                        sPaint.alpha = 255 - 255 * mAnimatedValue / 100
+                        mPaint.alpha = 255 - 255 * mAnimatedValue / 100
                     }
-                    else -> sPaint.alpha = 255
+                    else -> mPaint.alpha = 255
                 }
 
                 getBitmap(mListSizes[i - 1])?.let {
@@ -172,7 +152,7 @@ class Tasbih @JvmOverloads constructor(
                         it,
                         measuredWidth / 2 - it.width / 2f,
                         y,
-                        sPaint
+                        mPaint
                     )
                 }
             }
@@ -190,7 +170,7 @@ class Tasbih @JvmOverloads constructor(
                     it,
                     measuredWidth / 2 - it.width / 2f,
                     mListYPos[i - 1],
-                    sPaint
+                    mPaint
                 )
             }
         }
@@ -205,27 +185,4 @@ class Tasbih @JvmOverloads constructor(
             null
         }
     }
-
-
-//    -36 * dp,
-//    -28 * dp,
-//    4 * dp,
-//    12 * dp,
-//    56 * dp,
-//    64 * dp,
-//    120 * dp,
-//    128 * dp,
-//    196 * dp,
-//    204 * dp,
-//    284 * dp,
-//    292 * dp,
-//    360 * dp,
-//    368 * dp,
-//    424 * dp,
-//    432 * dp,
-//    476 * dp,
-//    484 * dp,
-//    516 * dp
-
-
 }

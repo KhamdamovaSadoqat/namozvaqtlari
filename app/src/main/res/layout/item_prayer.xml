@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:backgroundTint="@android:color/transparent"
             android:background="@drawable/bg_prayer_rv"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"

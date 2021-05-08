@@ -7,7 +7,7 @@
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_5"
+        android:background="@drawable/bg_1"
         tools:context=".ui.tasbeeh.TasbeehFragment">
 
 
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_centerHorizontal="true">
 
-            <com.example.namozvaqtlari.custom.Tasbih
+            <com.example.namozvaqtlari.ui.custom.Tasbih
                 android:id="@+id/imgRound"
                 android:layout_width="120dp"
                 android:layout_height="600dp"
