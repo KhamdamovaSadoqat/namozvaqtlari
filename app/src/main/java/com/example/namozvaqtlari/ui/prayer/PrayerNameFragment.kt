@@ -125,6 +125,6 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
                     ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
                 }!!
             ),
-            )
+        )
     }
 }

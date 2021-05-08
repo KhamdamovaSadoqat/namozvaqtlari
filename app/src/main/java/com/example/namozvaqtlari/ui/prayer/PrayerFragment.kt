@@ -2,7 +2,6 @@ package com.example.namozvaqtlari.ui.prayer
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,18 +39,23 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
         binding.rvPrayerName.adapter = adapter
     }
 
-    private fun separateListByTitleId(list: List<PrayerText>) {
+    private fun separateListByTitleId(list: List<PrayerText>): ArrayList<PrayerText> {
 
         val changedList = arrayListOf<PrayerText>()
         val _t = arguments?.getInt(TITLE_ID)
         for (i in list.indices) {
 
             if (list[i].titleId == _t){
+                if (list[i].titleId == _t) {
+                    changedList.add(list[i])
 
+                }
 
             }
 
         }
+        return changedList
+
     }
 
 
@@ -59,8 +63,8 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
 
         val jsonString = Gson().toJson(prayerText)
         findNavController().navigate(
-            R.id.prayerList, bundleOf(PRAYER_ID to jsonString)
-        )
+                R.id.prayerList, bundleOf(PRAYER_ID to jsonString)
+            )
     }
 }
 
@@ -79,7 +83,7 @@ class AdapterPrayer(private val listener: RvItemListener) :
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterPrayer.VH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         val binding: ItemPrayerBinding = DataBindingUtil.inflate(
             inflater,
@@ -103,7 +107,9 @@ class AdapterPrayer(private val listener: RvItemListener) :
     class VH(private val binding: ItemPrayerBinding, private val context: Context?) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(prayerText: PrayerText) {
+
             binding.prayerName = prayerText
+
         }
 
     }

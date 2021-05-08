@@ -1,6 +1,5 @@
 package com.example.namozvaqtlari.ui.prayer
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +13,15 @@ import com.example.namozvaqtlari.model.PrayerText
 import com.google.gson.Gson
 
 class PrayerList :Fragment(){
-    private lateinit var binding:FragmentPrayerListBinding
+    private lateinit var binding: FragmentPrayerListBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_prayer_list, container, false)
-        val list=Prayer().getList()
+        val list= Prayer().getList()
         val _u = arguments?.getString(PRAYER_ID)
-        val prayerText=Gson().fromJson(_u,PrayerText::class.java)
+        val prayerText=Gson().fromJson(_u, PrayerText::class.java)
         binding.prayer=prayerText
         return binding.root
     }

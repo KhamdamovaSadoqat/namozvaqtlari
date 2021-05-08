@@ -2,9 +2,11 @@ package com.example.namozvaqtlari.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
@@ -91,28 +93,31 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
     override fun onClicked(HomeItem: HomeItem) {
         when (HomeItem.id) {
             1 -> findNavController().navigate(
-                R.id.tasbeehFragment
+                R.id.action_homeFragment_to_tasbeehFragment
             )
             2 -> findNavController().navigate(
-                R.id.prayerFragment
+                R.id.action_homeFragment_to_prayerFragment
             )
             3 -> findNavController().navigate(
-                R.id.compassFragment
+                R.id.action_homeFragment_to_compassFragment
             )
             4 -> findNavController().navigate(
-                R.id.mosqueFragment
+                R.id.action_homeFragment_to_mosqueFragment
             )
-            5 -> findNavController().navigate(
-                R.id.mediaFragment
-            )
+            5 -> launchZoomUrl()
             6 -> findNavController().navigate(
-                R.id.calendarFragment
+                R.id.action_homeFragment_to_calendarFragment
             )
         }
 
 
     }
-
+    private fun launchZoomUrl() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=SMNHZR1u6KQ"))
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        }
+    }
     private fun getList(): List<HomeItem> {
         return listOf(
 
@@ -134,27 +139,17 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             HomeItem(
                 4,
                 "Masjid",
-                requireContext().let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.ic_ramadan_crescent_moon
-                    )
-                }!!
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_ramadan_crescent_moon)}!!
             ),
             HomeItem(
                 5,
-                "Ma'ruza",
-                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_cassette) }!!
+                "Makka live",
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_youtube) }!!
             ),
             HomeItem(
                 6,
                 "Kalendar",
-                requireContext().let {
-                    ContextCompat.getDrawable(
-                        it,
-                        R.drawable.ic_calendar_ultrathin
-                    )
-                }!!
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_calendar_ultrathin) }!!
             )
         )
     }
@@ -277,7 +272,6 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         Log.d("-------------", "setTime: h: $h")
         Log.d("-------------", "setTime: m: $m")
         Log.d("-------------", "setTime: s: $s")
-
 
         binding.chronometer.text = date.timeToText(h, m, s)
 
