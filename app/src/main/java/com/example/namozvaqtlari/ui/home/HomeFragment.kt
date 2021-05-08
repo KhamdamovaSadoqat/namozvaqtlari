@@ -210,12 +210,12 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             2 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTimeName.text = "Peshin"
-                binding.homeTime.text = allTimes.thuhr
+                binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
             }
             3 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTimeName.text = "Asr"
-                binding.homeTime.text = allTimes.assr
+                binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
             }
             4 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
@@ -225,7 +225,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             5 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTimeName.text = "Xufton"
-                binding.homeTime.text = allTimes.ishaa
+                binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
             }
         }
     }
