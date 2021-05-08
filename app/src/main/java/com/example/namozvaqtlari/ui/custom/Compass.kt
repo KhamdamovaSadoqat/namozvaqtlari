@@ -1,4 +1,4 @@
-package com.example.namozvaqtlari.custom
+package com.example.namozvaqtlari.ui.custom
 
 
 import android.animation.ValueAnimator

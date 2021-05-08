@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_1"
         tools:context=".ui.settings.SettingsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +25,7 @@
                 android:layout_margin="8dp"
                 android:gravity="start"
                 android:text="Notification"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

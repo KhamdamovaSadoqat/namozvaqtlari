@@ -149,7 +149,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             HomeItem(
                 6,
                 "Kalendar",
-                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_calendar_ultrathin) }!!
+                requireContext().let { ContextCompat.getDrawable(it, R.drawable.ic_calendar) }!!
             )
         )
     }
