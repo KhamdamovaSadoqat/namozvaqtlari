@@ -45,15 +45,15 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
         val _t = arguments?.getInt(TITLE_ID)
         for (i in list.indices) {
 
-            if (list[i].titleId == _t){
-                if (list[i].titleId == _t) {
-                    changedList.add(list[i])
+            if (list[i].titleId == _t) {
+                changedList.add(list[i])
 
-                }
 
             }
 
         }
+
+
         return changedList
 
     }
@@ -63,8 +63,8 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
 
         val jsonString = Gson().toJson(prayerText)
         findNavController().navigate(
-                R.id.prayerList, bundleOf(PRAYER_ID to jsonString)
-            )
+            R.id.prayerList, bundleOf(PRAYER_ID to jsonString)
+        )
     }
 }
 

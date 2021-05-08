@@ -30,12 +30,15 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
     }
 
     override fun onClicked(HomeItem: HomeItem) {
+        if (HomeItem.id==0){
+            findNavController().navigate(R.id.prayerFragment)
+        }
+else {
+            findNavController().navigate(
+                R.id.prayerFragment, bundleOf(TITLE_ID to HomeItem.id)
+            )
 
-        findNavController().navigate(
-            R.id.prayerFragment, bundleOf(TITLE_ID to HomeItem.id)
-        )
-
-
+        }
     }
 
     private fun setRv() {
@@ -52,7 +55,7 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
                 0,
                 "Hammasi",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_star_and_crescent_moon)
                 }!!
             ),
             HomeItem(
@@ -80,7 +83,7 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
                 4,
                 "Qiyinchilik kelganda",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_sadaqah)
                 }!!
             ),
             HomeItem(
@@ -122,7 +125,7 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
                 10,
                 "Boshqalar",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_ellipsis)
                 }!!
             ),
 
