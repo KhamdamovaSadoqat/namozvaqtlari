@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             locationHelper.showDialogSecondTime()
         }else if(ActivityCompat.checkSelfPermission(
-                this,
+                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED){
 //            locationHelper.showDialogGpsCheck()

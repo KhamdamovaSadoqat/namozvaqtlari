@@ -20,6 +20,9 @@ import com.example.namozvaqtlari.databinding.FragmentPrayerTimeBinding
 import com.example.namozvaqtlari.helper.LocationHelper
 import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.model.Times
+import com.example.namozvaqtlari.utils.DateUtils
+import java.util.*
+import kotlin.math.log
 
 class PrayerTimeFragment : Fragment() {
     private val TAG = "PrayerTimeFragment"
@@ -54,6 +57,43 @@ class PrayerTimeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        getIcon()
+        val date = DateUtils()
+        val allTimes = timeHelper.getAllTimes()
+        val icon = getIcon()
+        Log.d("-------------", "onResume: icon $icon")
+
+        when (icon) {
+            0 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_subah_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
+                binding.prayerTimeName.text = "Bomdod"
+            }
+            2 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_zuhar_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
+                binding.prayerTimeName.text = "Peshin"
+            }
+            3 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_ramadn_azhar)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
+                binding.prayerTimeName.text = "Asr"
+            }
+            4 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_maghrib_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
+                binding.prayerTimeName.text = "Shom"
+            }
+            5 -> {
+                binding.prayerTimeIcon.setImageResource(R.drawable.ic_isha_prayer)
+                binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
+                binding.prayerTimeName.text = "Xufton"
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setTime(time: Times) {
         val fajr = time.fajr.split(":")
@@ -83,5 +123,26 @@ class PrayerTimeFragment : Fragment() {
         }
         Log.d(TAG, "getSavedLocation: ${location?.latitude}")
         return location
+    }
+
+    fun getIcon(): Int {
+        var exactTime = timeHelper.getAlarmTime()
+        var allTimes = timeHelper.getAllTimes()
+
+        val date = Calendar.getInstance()
+        date.timeInMillis = exactTime
+
+        val timeString = "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00"
+        Log.d("-------------", "getIcon: exactTime: $exactTime")
+        Log.d("-------------", "getIcon: timeString: $timeString")
+        Log.d("-------------", "getIcon: allTime: $allTimes")
+
+        if (allTimes.fajr == timeString) return 0
+        else if (allTimes.thuhr == timeString) return 2
+        else if (allTimes.assr == timeString) return 3
+        else if (allTimes.maghrib == timeString) return 4
+        else if (allTimes.ishaa == timeString) return 5
+
+        return 0
     }
 }
