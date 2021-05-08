@@ -49,77 +49,77 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
     private fun getList(): List<HomeItem> {
         return listOf(
             HomeItem(
-                1,
+                0,
                 "Hammasi",
                 requireContext().let {
                     ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
                 }!!
             ),
             HomeItem(
-                2,
+                1,
                 "Tonggi va kechki ",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_ramadan_month)
+                }!!
+            ),
+            HomeItem(
+                2,
+                "Namozdagi duolar",
+                requireContext().let {
+                    ContextCompat.getDrawable(it, R.drawable.ic_muslim_man_praying)
                 }!!
             ),
             HomeItem(
                 3,
-                "Namozdagi duolar",
+                "Uy va oilada",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_islamic_friday_prayer)
                 }!!
             ),
             HomeItem(
                 4,
-                "Uy va oilada",
-                requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
-                }!!
-            ),
-            HomeItem(
-                5,
                 "Qiyinchilik kelganda",
                 requireContext().let {
                     ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
                 }!!
             ),
             HomeItem(
-                6,
+                5,
                 "Kasal bo'lganda",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_ambulance)
+                }!!
+            ),
+            HomeItem(
+                6,
+                "Tabiat",
+                requireContext().let {
+                    ContextCompat.getDrawable(it, R.drawable.ic_plant_based)
                 }!!
             ),
             HomeItem(
                 7,
-                "Tabiat",
+                "Xaj va Umra",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_kaaba_building)
                 }!!
             ),
             HomeItem(
                 8,
-                "Xaj va Umra",
+                "Sayohat",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_treasure_map)
                 }!!
             ),
             HomeItem(
                 9,
-                "Sayohat",
+                "Sahobalarning duolari",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
+                    ContextCompat.getDrawable(it, R.drawable.ic_quran_book)
                 }!!
             ),
             HomeItem(
                 10,
-                "Sahobalarning duolari",
-                requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)
-                }!!
-            ),
-            HomeItem(
-                11,
                 "Boshqalar",
                 requireContext().let {
                     ContextCompat.getDrawable(it, R.drawable.ic_prayer_beads)

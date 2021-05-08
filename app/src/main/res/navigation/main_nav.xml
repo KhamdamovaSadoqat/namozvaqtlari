@@ -52,15 +52,7 @@
         android:name="com.example.namozvaqtlari.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
-    <fragment
-        android:id="@+id/youTubeFragment"
-        android:name="com.example.namozvaqtlari.ui.youTube.YouTubeFragment"
-        android:label="AudioFragment" />
-<!--    <fragment-->
-<!--        android:id="@+id/youTubeFragment"-->
-<!--        android:name="com.example.namozvaqtlari.ui.media.YouTubeFragment"-->
-<!--        android:label="YouTubeFragment" />-->
-    <fragment
+      <fragment
         android:id="@+id/prayerFragment"
         android:name="com.example.namozvaqtlari.ui.prayer.PrayerFragment"
         android:label="PrayerFragment"

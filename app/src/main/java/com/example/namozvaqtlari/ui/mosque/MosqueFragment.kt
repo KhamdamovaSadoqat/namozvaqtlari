@@ -43,14 +43,11 @@ import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.text.DateFormat.getInstance
 import java.util.*
-import java.util.Calendar.getInstance
-import java.util.Currency.getInstance
 import kotlin.collections.ArrayList
 
 
-@Suppress("CAST_NEVER_SUCCEEDS")
+@Suppress("CAST_NEVER_SUCCEEDS", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener,
     GoogleMap.InfoWindowAdapter, GoogleMap.OnMyLocationButtonClickListener, RoutingListener {
 
@@ -142,12 +139,12 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
     override fun onMapReady(googleMap: GoogleMap) {
         locationHelper = LocationHelper(requireActivity())
 
-//        locationHelper.getLocationLiveData().observe(this) {
-//            Log.d(TAG, "onCreate: ${it.longitude}")
-//            Log.d(TAG, "onCreate: ${it.latitude}")
-//            latLng = LatLng(it.latitude, it.longitude)
-//        }
-        latLng=LatLng(41.199243078750214, 69.16348706307389)
+        locationHelper.getLocation().observe(this) {
+            Log.d(TAG, "onCreate: ${it.longitude}")
+            Log.d(TAG, "onCreate: ${it.latitude}")
+            latLng = LatLng(it.latitude, it.longitude)
+        }
+//        latLng=LatLng(41.199243078750214, 69.16348706307389)
         mMap = googleMap
         mMap.addMarker(
             MarkerOptions()
@@ -171,25 +168,48 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         enableLocation()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_REQ_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationHelper.hasPermission = true
-//                locationHelper.alertDialogGpsCheck()
-            } else {
-//                locationHelper.showDialogForPermission()
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//
+//
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == LOCATION_REQ_CODE) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                locationHelper.hasLocationPermission = true
+////                locationHelper.alertDialogGpsCheck()
+//            } else {
+////                locationHelper.showDialogForPermission()
+//            }
+//        }
+//
+//
+//    }
+override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array<out String>,
+    grantResults: IntArray
+) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    if (requestCode == LOCATION_REQ_CODE) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            locationHelper.hasPermission = true
+            locationHelper.getCurrentLocation()
+        } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                val showRational = shouldShowRequestPermissionRationale(permissions[0])
+                if (showRational) {
+                    locationHelper.showDialogSecondTime()
+                } else {
+                    locationHelper.showDialogThirdTime()
+                    //here has some problems
+                }
             }
         }
-
-
     }
+}
 
 
     override fun onMapClick(latLng: LatLng?) {

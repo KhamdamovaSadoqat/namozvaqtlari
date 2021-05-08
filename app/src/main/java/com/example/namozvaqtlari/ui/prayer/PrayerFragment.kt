@@ -107,7 +107,9 @@ class AdapterPrayer(private val listener: RvItemListener) :
     class VH(private val binding: ItemPrayerBinding, private val context: Context?) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(prayerText: PrayerText) {
+
             binding.prayerName = prayerText
+
         }
 
     }
