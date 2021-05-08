@@ -25,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:text='@{Integer.toString(prayerName.id ) }'
                 android:id="@+id/nameId"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"

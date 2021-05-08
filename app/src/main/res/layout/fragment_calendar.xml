@@ -45,7 +45,10 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <Button
+        <TextView
+            android:textStyle="normal"
+            android:textSize="24sp"
+            android:textColor="#3949AB"
             android:id="@+id/btnCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

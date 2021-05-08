@@ -51,6 +51,7 @@ class PrayerFragment : Fragment(), AdapterPrayer.RvItemListener {
 
             }
 
+
         }
 
 
