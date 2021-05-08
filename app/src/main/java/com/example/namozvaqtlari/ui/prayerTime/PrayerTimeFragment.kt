@@ -68,31 +68,31 @@ class PrayerTimeFragment : Fragment() {
 
         when (icon) {
             0 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.gradient_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_1)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_subah_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
                 binding.prayerTimeName.text = "Bomdod"
             }
             2 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.gradient_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_2)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
                 binding.prayerTimeName.text = "Peshin"
             }
             3 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.gradient_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_3)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
                 binding.prayerTimeName.text = "Asr"
             }
             4 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.gradient_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_4)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_maghrib_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
                 binding.prayerTimeName.text = "Shom"
             }
             5 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.gradient_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_5)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
                 binding.prayerTimeName.text = "Xufton"
