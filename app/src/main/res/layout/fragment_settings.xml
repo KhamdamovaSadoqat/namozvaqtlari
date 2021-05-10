@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="start"
-                android:text="Notification"
+                android:text="Bildirishnoma"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

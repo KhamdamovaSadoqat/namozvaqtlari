@@ -19,7 +19,7 @@ class PrayerList :Fragment(){
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_prayer_list, container, false)
-        val list= Prayer().getList()
+        val list= DataPrayer().getList()
         val _u = arguments?.getString(PRAYER_ID)
         val prayerText=Gson().fromJson(_u, PrayerText::class.java)
         binding.prayer=prayerText

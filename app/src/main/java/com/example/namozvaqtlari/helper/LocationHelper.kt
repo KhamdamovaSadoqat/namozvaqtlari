@@ -31,7 +31,7 @@ var FINISH_FLAG = 0
 class LocationHelper(private val activity: Activity) {
 
 
-    val TAG = "LocationHelper2"
+    val TAG = "LocationHelper"
     var hasPermission = false
     private val permission = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
     private lateinit var dialog: AlertDialog
@@ -205,17 +205,19 @@ class LocationHelper(private val activity: Activity) {
             dialog.show()
         } else {
             Log.d(TAG, "showDialogGpsCheck: gps available")
+            getCurrentLocation()
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
-                2000,
-                5000f,
+                5000,
+                50000f,
                 locationListener
             )
         }
     }
 
     @SuppressLint("MissingPermission")
-    private  fun getCurrentLocation() {
+    fun getCurrentLocation() {
+        Log.d("-------------", "getCurrentLocation: working")
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Log.d(TAG, "getCurrentLocation: network available")
             locationManager.requestLocationUpdates(
@@ -224,7 +226,16 @@ class LocationHelper(private val activity: Activity) {
                 50000f,
                 locationListener
             )
-        } else {
+        }
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d(TAG, "getCurrentLocation: gps available")
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                5000,
+                50000f,
+                locationListener
+            )
+        }else {
             showDialogGpsCheck()
         }
     }

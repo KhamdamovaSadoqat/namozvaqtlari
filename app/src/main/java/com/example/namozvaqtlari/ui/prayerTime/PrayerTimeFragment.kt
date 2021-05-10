@@ -53,6 +53,7 @@ class PrayerTimeFragment : Fragment() {
         locHelper = LocationHelper(requireActivity())
         prefs = requireActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
         val location = getSavedLocation()
+        Log.d("-------------", "onCreateView: location: $location")
         location?.let { loc ->
             Log.d("------------", "onCreateView: ${loc.latitude}, ${loc.longitude}")
             val time = viewModel.getDate(loc)
@@ -161,12 +162,15 @@ class PrayerTimeFragment : Fragment() {
         val latitudeSt = prefs.getString(LATITUDE, null)
         val longtitudeSt = prefs.getString(LONGITUDE, null)
         var location: Location? = null
+        location = Location("")
         if (latitudeSt != null && longtitudeSt != null) {
-            location = Location("")
             location.latitude = latitudeSt.toDouble()
             location.longitude = longtitudeSt.toDouble()
+        } else{
+            location.latitude = 41.311081
+            location.longitude = 69.240562
         }
-        Log.d(TAG, "getSavedLocation: ${location?.latitude}")
+        Log.d(TAG, "getSavedLocation: ${location.latitude}")
         return location
     }
 

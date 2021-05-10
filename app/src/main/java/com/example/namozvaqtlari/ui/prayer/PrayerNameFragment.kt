@@ -30,12 +30,9 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
     }
 
     override fun onClicked(HomeItem: HomeItem) {
-
         findNavController().navigate(
             R.id.prayerFragment, bundleOf(TITLE_ID to HomeItem.id)
         )
-
-
     }
 
     private fun setRv() {

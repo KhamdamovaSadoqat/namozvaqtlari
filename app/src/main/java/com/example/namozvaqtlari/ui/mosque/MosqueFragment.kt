@@ -189,7 +189,7 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         if (requestCode == LOCATION_REQ_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationHelper.hasPermission = true
-                locationHelper.getLocation()
+                locationHelper.getCurrentLocation()
             } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     val showRational = shouldShowRequestPermissionRationale(permissions[0])

@@ -9,13 +9,12 @@ import com.example.namozvaqtlari.databinding.ItemRvBinding
 import com.example.namozvaqtlari.model.HomeItem
 
 class AdapterHome(private val listener:RvItemListener):RecyclerView.Adapter<AdapterHome.VH>() {
-
+    private var list= listOf<HomeItem>()
 
     interface RvItemListener{
         fun onClicked(HomeItem: HomeItem)
     }
 
-    private var list= listOf<HomeItem>()
     fun setData(list: List<HomeItem>) {
         this.list = list
         notifyDataSetChanged()
