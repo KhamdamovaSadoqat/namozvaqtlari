@@ -215,7 +215,7 @@ class LocationHelper(private val activity: Activity) {
     }
 
     @SuppressLint("MissingPermission")
-    fun getCurrentLocation() {
+    private  fun getCurrentLocation() {
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Log.d(TAG, "getCurrentLocation: network available")
             locationManager.requestLocationUpdates(

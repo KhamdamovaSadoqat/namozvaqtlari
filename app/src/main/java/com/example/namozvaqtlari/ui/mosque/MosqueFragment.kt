@@ -28,6 +28,7 @@ import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.Variables
 import com.example.namozvaqtlari.constants.LOCATION_REQ_CODE
 import com.example.namozvaqtlari.databinding.FragmentMosqueBinding
+import com.example.namozvaqtlari.helper.InternetHelper
 import com.example.namozvaqtlari.helper.LocationHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -45,6 +46,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 @Suppress("CAST_NEVER_SUCCEEDS", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -60,6 +62,8 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
     private val PROXIMITY_RADIUS = 5000
     private lateinit var locationHelper: LocationHelper
     private lateinit var latLng: LatLng
+    private var networkState = false
+    private lateinit var internetHelper: InternetHelper
 
 
     @SuppressLint("ResourceType")
@@ -69,47 +73,51 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mosque, container, false)
-
+        locationHelper = LocationHelper(requireActivity())
+        locationHelper.getLocationViaProviders()
+        locationHelper.getLocation().observe(viewLifecycleOwner) {
+            Log.d(TAG, "onCreate: ${it.longitude}")
+            Log.d(TAG, "onCreate: ${it.latitude}")
+            latLng = LatLng(it.latitude, it.longitude)
+        }
+        internetHelper = InternetHelper(requireContext())
         binding.btnMosque.setOnClickListener(object : View.OnClickListener {
-
             var Mosque = "mosque"
             override fun onClick(v: View) {
-                Variables.isNetworkAvailable.observe(requireActivity()) { result ->
-                    Log.d(TAG, "Variables: $result")
-                    if (result == true) {
-                        Log.d("onClick", "Button is Clicked")
-                        mMap.clear()
-                        val url = getUrl(latLng.latitude, latLng.longitude, Mosque)
-                        val DataTransfer = arrayOfNulls<Any>(2)
-                        DataTransfer[0] = mMap
-                        DataTransfer[1] = url
-                        Log.d("onClick", url)
+                Log.d("-------------", "onClick: cliced")
+                Log.d("-------------", "onClick: ${internetHelper.checkInternetConnection()}")
+                if (internetHelper.checkInternetConnection()) {
+                    Log.d(TAG, "Variables: $networkState")
+                    mMap.clear()
+                    val url = getUrl(latLng.latitude, latLng.longitude, Mosque)
+                    val DataTransfer = arrayOfNulls<Any>(2)
+                    DataTransfer[0] = mMap
+                    DataTransfer[1] = url
+                    Log.d("onClick", url)
 
-                        getNearbyPlaceData(DataTransfer)
-                        Log.d(TAG, "onCreateView: ")
-                        Toast.makeText(
-                            requireContext(),
-                            "Yaqin atrofdagi masjidlar",
-                            Toast.LENGTH_LONG
-                        )
-                            .show()
-                    } else {
-                        AlertDialog.Builder(activity)
-                            .setView(R.layout.dialog_internet)
-                            .setMessage("Internet yoqilmagan iltimos xaritadan foydalana olishingiz uchun internetni yoqing")
-                            .setCancelable(true)
-                            .setNegativeButton("Qolish") { _: DialogInterface, _: Int ->
-                            }
-                            .setOnDismissListener {
-                                it.dismiss()
-                            }
-                            .show()
-
-                    }
+                    getNearbyPlaceData(DataTransfer)
+                    Log.d(TAG, "onCreateView: ")
+                    Toast.makeText(
+                        requireContext(),
+                        "Yaqin atrofdagi masjidlar",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                } else {
+                    AlertDialog.Builder(activity)
+                        .setView(R.layout.dialog_internet)
+                        .setMessage("Internet yoqilmagan iltimos xaritadan foydalana olishingiz uchun internetni yoqing")
+                        .setCancelable(true)
+                        .setNegativeButton("Qolish") { _: DialogInterface, _: Int ->
+                        }
+                        .setOnDismissListener {
+                            it.dismiss()
+                        }
+                        .show()
                 }
             }
-        })
 
+        })
 
         Places.initialize(requireContext(), resources.getString(R.string.google_maps_key))
         mPlacesClient = Places.createClient(requireActivity())
@@ -121,45 +129,30 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         binding.map.onResume()
         binding.map.getMapAsync(this)
 
-
-
         try {
             MapsInitializer.initialize(requireContext().applicationContext)
         } catch (e: Exception) {
             Log.e(TAG, "onCreateView: ", e)
         }
-
-
-
-
         return binding.root
     }
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        locationHelper = LocationHelper(requireActivity())
-
-        locationHelper.getLocation().observe(this) {
-            Log.d(TAG, "onCreate: ${it.longitude}")
-            Log.d(TAG, "onCreate: ${it.latitude}")
-            latLng = LatLng(it.latitude, it.longitude)
-        }
-//        latLng=LatLng(41.199243078750214, 69.16348706307389)
+        Log.d("-------------", "onMapReady: lat: ${latLng.latitude}, long: ${latLng.longitude}")
         mMap = googleMap
         mMap.addMarker(
             MarkerOptions()
                 .position(latLng)
                 .title(Place.Field.ADDRESS.toString())
-
-
         )
+
         Log.d(TAG, "onMapReady: ${Place.Field.ADDRESS}")
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15F))
         mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.isTrafficEnabled = true
         mMap.setOnMapClickListener(this)
         mMap.setInfoWindowAdapter(this)
 //        mMap.setOnMyLocationButtonClickListener(this)
@@ -168,7 +161,7 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         enableLocation()
     }
 
-//    override fun onRequestPermissionsResult(
+    //    override fun onRequestPermissionsResult(
 //        requestCode: Int,
 //        permissions: Array<out String>,
 //        grantResults: IntArray
@@ -187,29 +180,29 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
 //
 //
 //    }
-override fun onRequestPermissionsResult(
-    requestCode: Int,
-    permissions: Array<out String>,
-    grantResults: IntArray
-) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    if (requestCode == LOCATION_REQ_CODE) {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            locationHelper.hasPermission = true
-            locationHelper.getCurrentLocation()
-        } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                val showRational = shouldShowRequestPermissionRationale(permissions[0])
-                if (showRational) {
-                    locationHelper.showDialogSecondTime()
-                } else {
-                    locationHelper.showDialogThirdTime()
-                    //here has some problems
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_REQ_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationHelper.hasPermission = true
+                locationHelper.getLocation()
+            } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    val showRational = shouldShowRequestPermissionRationale(permissions[0])
+                    if (showRational) {
+                        locationHelper.showDialogSecondTime()
+                    } else {
+                        locationHelper.showDialogThirdTime()
+                        //here has some problems
+                    }
                 }
             }
         }
     }
-}
 
 
     override fun onMapClick(latLng: LatLng?) {
@@ -219,7 +212,9 @@ override fun onRequestPermissionsResult(
                 .title(Place.Type.COUNTRY.toString())
         })
 
-
+        if (latLng != null) {
+            Log.d("-------------", "onMapReady: lat: ${latLng.latitude}, long: ${latLng.longitude}")
+        }
         mMap.animateCamera(
             CameraUpdateFactory.newLatLng(latLng),
             1000,
@@ -282,7 +277,6 @@ override fun onRequestPermissionsResult(
     override fun onRoutingCancelled() {
         Log.d(TAG, "onRoutingCancelled: routing cancelled")
     }
-
 
     private fun enableLocation() {
         if (sIsPermissionGranted) {
