@@ -3,12 +3,15 @@ package com.example.namozvaqtlari.ui.prayerTime
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -24,6 +27,12 @@ import com.example.namozvaqtlari.model.Times
 import com.example.namozvaqtlari.utils.DateUtils
 import java.util.*
 import kotlin.math.log
+import  android.R.color.white
+import android.content.res.ColorStateList
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+
 
 class PrayerTimeFragment : Fragment() {
     private val TAG = "PrayerTimeFragment"
@@ -64,35 +73,65 @@ class PrayerTimeFragment : Fragment() {
         val date = DateUtils()
         val allTimes = timeHelper.getAllTimes()
         val icon = getIcon()
+
+        binding.constrainLayout
         Log.d("-------------", "onResume: icon $icon")
 
         when (icon) {
             0 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.bg_1)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_5)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_subah_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
                 binding.prayerTimeName.text = "Bomdod"
+
+                binding.linear.backgroundTintList = ColorStateList.valueOf(Color.GRAY)
+                binding.prayerTimeName.setTextColor(Color.WHITE)
+                binding.prayerTime.setTextColor(Color.WHITE)
+
+                binding.prayerTimeIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconAssr.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconFajr.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconIshaa.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconMaghrib.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconShuruq.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                binding.iconThuhr.imageTintList = ColorStateList.valueOf(Color.WHITE)
+
+                binding.timeAssr.setTextColor(Color.WHITE)
+                binding.timeFajr.setTextColor(Color.WHITE)
+                binding.timeIshaa.setTextColor(Color.WHITE)
+                binding.timeMaghrib.setTextColor(Color.WHITE)
+                binding.timeShuruq.setTextColor(Color.WHITE)
+                binding.timeThuhr.setTextColor(Color.WHITE)
+
+                binding.nameAssr.setTextColor(Color.WHITE)
+                binding.nameFajr.setTextColor(Color.WHITE)
+                binding.nameIshaa.setTextColor(Color.WHITE)
+                binding.nameMaghrib.setTextColor(Color.WHITE)
+                binding.nameShuruq.setTextColor(Color.WHITE)
+                binding.nameThuhr.setTextColor(Color.WHITE)
+
             }
             2 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.bg_2)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_1)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
                 binding.prayerTimeName.text = "Peshin"
             }
             3 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.bg_3)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_2)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
                 binding.prayerTimeName.text = "Asr"
+
             }
             4 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.bg_4)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_3)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_maghrib_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
                 binding.prayerTimeName.text = "Shom"
             }
             5 -> {
-                binding.constrainLayout.setBackgroundResource(R.drawable.bg_5)
+                binding.constrainLayout.setBackgroundResource(R.drawable.bg_4)
                 binding.prayerTimeIcon.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
                 binding.prayerTimeName.text = "Xufton"

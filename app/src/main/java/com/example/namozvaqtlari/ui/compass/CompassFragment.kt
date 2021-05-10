@@ -1,6 +1,5 @@
 package com.example.namozvaqtlari.ui.compass
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -19,7 +18,6 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.constants.LATITUDE
@@ -43,7 +41,6 @@ class CompassFragment : Fragment(), SensorEventListener {
     private lateinit var prefs: SharedPreferences
     private lateinit var sensorManager: SensorManager
     private lateinit var binding: FragmentCompassBinding
-//    private lateinit var viewModel: CompassViewModel
     private lateinit var gmt: TimeZone
     private lateinit var locationHelper: LocationHelper
     private var degree: Double = 0.0
@@ -53,7 +50,6 @@ class CompassFragment : Fragment(), SensorEventListener {
     private var intDegree: Int = 0
     private lateinit var location: Location
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,7 +99,7 @@ class CompassFragment : Fragment(), SensorEventListener {
         intDegree = degree.toInt()
 
         Log.d("gps", "getLocation  : $degree")
-        binding.tvLocation.text = "$intDegree"
+        binding.tvLocation.text = "$intDegree°"
     }
 
     override fun onPause() {
