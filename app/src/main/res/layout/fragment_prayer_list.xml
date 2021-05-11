@@ -8,7 +8,7 @@
             type="com.example.namozvaqtlari.model.PrayerText" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,6 +44,6 @@
                 android:textColor="@color/black" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

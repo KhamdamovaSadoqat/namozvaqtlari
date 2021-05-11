@@ -8,7 +8,7 @@
         android:id="@+id/constrainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_2"
+        android:background="@drawable/bg_1"
         tools:context=".ui.prayerTime.PrayerTimeFragment">
 
         <LinearLayout

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -62,12 +61,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showProgress() {
-        progress.setContentView(R.layout.dialog_progress)
-        progress.setCancelable(false)
-        progress.show()
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -77,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == LOCATION_REQ_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationHelper.hasPermission = true
-                locationHelper.getCurrentLocation()
+                locationHelper.getCurrentLocationViaNetworkProvider()
+                locationHelper.getCurrentLocationViaGpsProvider()
             } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                     val showRational = shouldShowRequestPermissionRationale(permissions[0])

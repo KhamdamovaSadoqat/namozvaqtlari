@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +26,6 @@ import com.directions.route.Route
 import com.directions.route.RouteException
 import com.directions.route.RoutingListener
 import com.example.namozvaqtlari.R
-import com.example.namozvaqtlari.Variables
 import com.example.namozvaqtlari.constants.LOCATION_REQ_CODE
 import com.example.namozvaqtlari.databinding.FragmentMosqueBinding
 import com.example.namozvaqtlari.helper.InternetHelper
@@ -45,8 +45,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 @Suppress("CAST_NEVER_SUCCEEDS", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -180,29 +178,29 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
 //
 //
 //    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_REQ_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationHelper.hasPermission = true
-                locationHelper.getCurrentLocation()
-            } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                    val showRational = shouldShowRequestPermissionRationale(permissions[0])
-                    if (showRational) {
-                        locationHelper.showDialogSecondTime()
-                    } else {
-                        locationHelper.showDialogThirdTime()
-                        //here has some problems
-                    }
-                }
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == LOCATION_REQ_CODE) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                locationHelper.hasPermission = true
+//                locationHelper.getCurrentLocationViaNetworkProvider()
+//            } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//                    val showRational = shouldShowRequestPermissionRationale(permissions[0])
+//                    if (showRational) {
+//                        locationHelper.showDialogSecondTime()
+//                    } else {
+//                        locationHelper.showDialogThirdTime()
+//                        //here has some problems
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
     override fun onMapClick(latLng: LatLng?) {
@@ -432,12 +430,7 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
             markerOptions.position(latLng)
             mMap.addMarker(
                 MarkerOptions()
-                    .icon(
-                        bitmapDescriptorFromVector(
-                            requireContext(),
-                            R.drawable.ic_ramadn_azhar
-                        )
-                    )
+                    .icon(getMarkerIconFromDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_location)!!))
                     .position(latLng)
                     .title(placeName.toString())
                     .snippet(vicinity.toString())
@@ -448,16 +441,29 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         }
     }
 
+    private fun getMarkerIconFromDrawable(drawable: Drawable): BitmapDescriptor? {
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
     private fun bitmapDescriptorFromVector(
         context: Context,
         @DrawableRes vectorDrawableResourceId: Int
     ): BitmapDescriptor? {
-        val background = ContextCompat.getDrawable(context, R.drawable.ic_ramadn_azhar)
+        val background = ContextCompat.getDrawable(context, R.drawable.ic_location)
         background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
         vectorDrawable!!.setBounds(
             40,
-            20,
+            40,
             vectorDrawable.intrinsicWidth + 40,
             vectorDrawable.intrinsicHeight + 20
         )
@@ -467,7 +473,7 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
-        background.draw(canvas)
+        background?.draw(canvas)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }

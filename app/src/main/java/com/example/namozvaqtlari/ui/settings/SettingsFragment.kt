@@ -39,13 +39,13 @@ class SettingsFragment : Fragment() {
             setNotificationToSharedPref(isChecked)
             if (!isChecked) AlarmReceiver.cancelAlarm(requireContext())
         }
-//        if (binding.switchCompatNotification.isChecked) {
-//            AlarmReceiver.setAlarm(requireContext())
-//            setNotificationToSharedPref(true)
-//        } else {
-//            AlarmReceiver.cancelAlarm(requireContext())
-//            setNotificationToSharedPref(false)
-//        }
+
+        binding.secondConstraint.setOnClickListener {
+
+        }
+        binding.thirdConstraint.setOnClickListener {
+
+        }
     }
 
     private fun setNotificationToSharedPref(status: Boolean) {

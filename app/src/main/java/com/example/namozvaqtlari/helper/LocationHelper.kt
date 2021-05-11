@@ -205,7 +205,7 @@ class LocationHelper(private val activity: Activity) {
             dialog.show()
         } else {
             Log.d(TAG, "showDialogGpsCheck: gps available")
-            getCurrentLocation()
+            getCurrentLocationViaNetworkProvider()
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 5000,
@@ -216,7 +216,7 @@ class LocationHelper(private val activity: Activity) {
     }
 
     @SuppressLint("MissingPermission")
-    fun getCurrentLocation() {
+    fun getCurrentLocationViaNetworkProvider() {
         Log.d("-------------", "getCurrentLocation: working")
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Log.d(TAG, "getCurrentLocation: network available")
@@ -227,6 +227,10 @@ class LocationHelper(private val activity: Activity) {
                 locationListener
             )
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getCurrentLocationViaGpsProvider(){
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Log.d(TAG, "getCurrentLocation: gps available")
             locationManager.requestLocationUpdates(
@@ -239,6 +243,8 @@ class LocationHelper(private val activity: Activity) {
             showDialogGpsCheck()
         }
     }
+
+
 
     fun dialogDismiss() {
         if (this::dialog.isInitialized)
@@ -263,7 +269,7 @@ class LocationHelper(private val activity: Activity) {
             locationObservable.value = location!!
             savePrefs()
         } else {
-            if (hasPermission) getCurrentLocation()
+            if (hasPermission) getCurrentLocationViaNetworkProvider()
             else showDialogFirstTime()
         }
     }
