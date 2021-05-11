@@ -33,7 +33,7 @@ class Compass @JvmOverloads constructor(
     init {
         mBitmap = ContextCompat.getDrawable(
             context,
-            R.drawable.ic_bg5
+            R.drawable.bg_10
         )?.toBitmap()
     }
 

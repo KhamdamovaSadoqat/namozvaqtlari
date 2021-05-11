@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_radio_2_line"
+        android:icon="@drawable/ic_zuhar_prayer"
         android:id="@+id/radioFragment"
         android:title="radio" />
     <item
-        android:icon="@drawable/ic_music_line"
+        android:icon="@drawable/ic_zuhar_prayer"
         android:id="@+id/audioFragment2"
         android:title="audio" />
     <item
-        android:icon="@drawable/ic_youtube_line"
+        android:icon="@drawable/ic_zuhar_prayer"
         android:id="@+id/youTubeFragment2"
         android:title="youTube" />
 
