@@ -13,7 +13,7 @@ class DataParser {
         var mJsonArray: JSONArray? = null
         val sJsonObject: JSONObject
         try {
-            Log.d("Places", "parse")
+//            Log.d("Places", "parse")
             sJsonObject = JSONObject(jsonData)
             mJsonArray = sJsonObject.getJSONArray("results")
         } catch (e: JSONException) {

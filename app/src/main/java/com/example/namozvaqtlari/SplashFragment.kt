@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
-import com.example.namozvaqtlari.constants.FLAG
 import com.example.namozvaqtlari.databinding.FragmentSplashBinding
 import java.util.*
 

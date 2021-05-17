@@ -45,7 +45,7 @@ class LocationHelper(private val activity: Activity) {
     }
 
     private fun initialize() {
-        Log.d(TAG, "initialize: working")
+//        Log.d(TAG, "initialize: working")
         hasPermission = (ActivityCompat.checkSelfPermission(
             activity,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -64,8 +64,8 @@ class LocationHelper(private val activity: Activity) {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && (FINISH_FLAG == 0)
         ) {
-            Log.d(TAG, "initialize: first dialog working")
-            Log.d(TAG, "initialize: $FINISH_FLAG")
+//            Log.d(TAG, "initialize: first dialog working")
+//            Log.d(TAG, "initialize: $FINISH_FLAG")
             showDialogFirstTime()
         }
 //        else{
@@ -75,17 +75,17 @@ class LocationHelper(private val activity: Activity) {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(locationResult: Location) {
-            Log.d(TAG, "before location check: ${locationResult.latitude}")
+//            Log.d(TAG, "before location check: ${locationResult.latitude}")
             if (location != null) {
                 val distance = locationResult.distanceTo(location)
-                Log.d(TAG, "location is not null onLocationChanged: ${locationResult.latitude}")
+//                Log.d(TAG, "location is not null onLocationChanged: ${locationResult.latitude}")
                 if (distance > 50000) {
                     location = locationResult
                     locationObservable.value = locationResult
                     savePrefs()
                 }
             } else {
-                Log.d(TAG, "location is null onLocationChanged: ${locationResult.latitude}")
+//                Log.d(TAG, "location is null onLocationChanged: ${locationResult.latitude}")
 //                location = locationResult
 //                locationObservable.value = locationResult
 //                Log.d(TAG, "onLocationChanged: ${locationResult.latitude}")
@@ -104,7 +104,7 @@ class LocationHelper(private val activity: Activity) {
 
     private fun showDialogFirstTime() {
         if (this::dialog.isInitialized) {
-            Log.d(TAG, "showDialogForPermission: dismiss")
+//            Log.d(TAG, "showDialogForPermission: dismiss")
             dialog.dismiss()
         }
         dialog = AlertDialog.Builder(activity)
@@ -204,7 +204,7 @@ class LocationHelper(private val activity: Activity) {
                 .create()
             dialog.show()
         } else {
-            Log.d(TAG, "showDialogGpsCheck: gps available")
+//            Log.d(TAG, "showDialogGpsCheck: gps available")
             getCurrentLocationViaNetworkProvider()
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
@@ -217,9 +217,9 @@ class LocationHelper(private val activity: Activity) {
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocationViaNetworkProvider() {
-        Log.d("-------------", "getCurrentLocation: working")
+//        Log.d("-------------", "getCurrentLocation: working")
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            Log.d(TAG, "getCurrentLocation: network available")
+//            Log.d(TAG, "getCurrentLocation: network available")
             locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER,
                 5000,
@@ -232,7 +232,7 @@ class LocationHelper(private val activity: Activity) {
     @SuppressLint("MissingPermission")
     fun getCurrentLocationViaGpsProvider(){
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Log.d(TAG, "getCurrentLocation: gps available")
+//            Log.d(TAG, "getCurrentLocation: gps available")
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 5000,
@@ -257,8 +257,8 @@ class LocationHelper(private val activity: Activity) {
         locationManager =
             (activity.getSystemService(LOCATION_SERVICE) as LocationManager?)!!
         val providers = locationManager.getProviders(true)
-        Log.d(TAG, "getLocationViaProviders: ${providers.size}")
-        Log.d(TAG, "getLocationViaProviders: ${providers.indices.reversed()}")
+//        Log.d(TAG, "getLocationViaProviders: ${providers.size}")
+//        Log.d(TAG, "getLocationViaProviders: ${providers.indices.reversed()}")
         for (i in providers.indices.reversed()) {
             location = locationManager.getLastKnownLocation(providers[i])
             Log.d(TAG, "getLocationViaProviders: location: $location")
@@ -280,6 +280,6 @@ class LocationHelper(private val activity: Activity) {
             .putString(LONGITUDE, location!!.longitude.toString())
             .putLong(LAST_LOCATION_UPDATE, System.currentTimeMillis())
             .apply()
-        Log.d(TAG, "savedPref: ${location?.latitude}")
+//        Log.d(TAG, "savedPref: ${location?.latitude}")
     }
 }

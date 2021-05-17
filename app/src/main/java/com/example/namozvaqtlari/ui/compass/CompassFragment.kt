@@ -54,7 +54,7 @@ class CompassFragment : Fragment(), SensorEventListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("CompassFragment:", "Compass Fragment: degree: $degree")
+//        Log.d("CompassFragment:", "Compass Fragment: degree: $degree")
 //        viewModel = ViewModelProvider(this).get(CompassViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_compass, container, false)
         prefs = requireContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
@@ -75,7 +75,7 @@ class CompassFragment : Fragment(), SensorEventListener {
 
         }
 
-        Log.d("CompassFragment:", "sensorManager $sensorManager")
+//        Log.d("CompassFragment:", "sensorManager $sensorManager")
         return binding.root
     }
 
@@ -98,7 +98,7 @@ class CompassFragment : Fragment(), SensorEventListener {
         degree = getDegree()
         intDegree = degree.toInt()
 
-        Log.d("gps", "getLocation  : $degree")
+//        Log.d("gps", "getLocation  : $degree")
         binding.tvLocation.text = "$intDegree°"
     }
 
@@ -130,7 +130,7 @@ class CompassFragment : Fragment(), SensorEventListener {
                     val orientation = FloatArray(3)
                     SensorManager.getOrientation(R, orientation)
                     azimuth = Math.toDegrees(orientation[0].toDouble()).toFloat()
-                    Log.d(TAG, "onSensorChanged: degree: $degree")
+//                    Log.d(TAG, "onSensorChanged: degree: $degree")
                     azimuth = ((azimuth + 360) % 360).toFloat()
 //                    azimuth = ((azimuth - degree + 360) % 360).toFloat()
 
@@ -162,7 +162,7 @@ class CompassFragment : Fragment(), SensorEventListener {
             location.longitude = longtitudeSt.toDouble()
             locationHelper.getLocation().observe(this){
                 location = it
-                Log.d(TAG, "getSavedLocation: ${location.latitude}")
+//                Log.d(TAG, "getSavedLocation: ${location.latitude}")
             }
         }
     }

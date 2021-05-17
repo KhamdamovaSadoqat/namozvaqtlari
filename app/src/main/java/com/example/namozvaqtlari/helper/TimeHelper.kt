@@ -36,7 +36,7 @@ class TimeHelper(private val location: Location) {
 
         val prayerTimes = azan.getPrayerTimes(simpleDate)
         times = prayerTimes.times
-        Log.d("Times", "prayerTime: ${times[0]}, ${times[1]}, ${times[2]}, ${times[3]}, ${times[4]}, ${times[5]}, ")
+//        Log.d("Times", "prayerTime: ${times[0]}, ${times[1]}, ${times[2]}, ${times[3]}, ${times[4]}, ${times[5]}, ")
     }
 
     private fun checkIsTimeAvailable() {
@@ -54,7 +54,7 @@ class TimeHelper(private val location: Location) {
         val day = mCalendar.get(Calendar.DAY_OF_MONTH)
         val month = mCalendar.get(Calendar.MONTH) + 1
         val year = mCalendar.get(Calendar.YEAR)
-        Log.d("------------", "getSimpleDate: $day $month $year")
+//        Log.d("------------", "getSimpleDate: $day $month $year")
         simpleDate = SimpleDate(day, month, year)
     }
 

@@ -19,7 +19,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.lottie.utils.Utils
 import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.constants.*
 import com.example.namozvaqtlari.databinding.FragmentHomeBinding
@@ -28,6 +27,7 @@ import com.example.namozvaqtlari.model.HomeItem
 import com.example.namozvaqtlari.model.Times
 import com.example.namozvaqtlari.notification.AlarmReceiver
 import com.example.namozvaqtlari.utils.DateUtils
+import com.example.namozvaqtlari.utils.PartOfDayUtils
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Calendar.*
@@ -68,7 +68,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         mChronometer.setOnChronometerTickListener { setTime() }
 
         NOTIFICATION_ENABLED = getNotificationStatus()
-        Log.d("-------------", "onCreateView: notificationstatus: $NOTIFICATION_ENABLED")
+//        Log.d("-------------", "onCreateView: notificationstatus: $NOTIFICATION_ENABLED")
 
         if (NOTIFICATION_ENABLED) {
             AlarmReceiver.setAlarm(requireContext())
@@ -164,62 +164,69 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
 
     fun getNotificationStatus(): Boolean {
         val prefs = requireContext().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
-        Log.d("-------------", "getNotificationStatus: ${prefs.getBoolean("NOTIFICATION_ENABLED", true)}")
+//        Log.d("-------------", "getNotificationStatus: ${prefs.getBoolean("NOTIFICATION_ENABLED", true)}")
         return prefs.getBoolean("NOTIFICATION_ENABLED", true)
     }
 
-    fun getIcon(): Int {
-        var exactTime = timeHelper.getAlarmTime()
-        var allTimes = timeHelper.getAllTimes()
-
-        val date = Calendar.getInstance()
-        date.timeInMillis = exactTime
-
-        val timeString = "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00"
-        Log.d("-------------", "getIcon: exactTime: $exactTime")
-        Log.d("-------------", "getIcon: timeString: $timeString")
-        Log.d("-------------", "getIcon: allTime: $allTimes")
-
-        if (allTimes.fajr == timeString) return 0
-        else if (allTimes.thuhr == timeString) return 2
-        else if (allTimes.assr == timeString) return 3
-        else if (allTimes.maghrib == timeString) return 4
-        else if (allTimes.ishaa == timeString) return 5
-
-        return 0
-    }
+//    fun getIcon(): Int {
+//        var exactTime = timeHelper.getAlarmTime()
+//        var allTimes = timeHelper.getAllTimes()
+//        var dataUtils = DateUtils()
+//        val date = Calendar.getInstance()
+//
+//        date.timeInMillis = exactTime
+//        var fullTime = dataUtils.timeToTextWithoutMinus(date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), 0)
+//        Log.d("-------------", "getIcon: exactTime: $exactTime")
+//        Log.d("-------------", "getIcon: timeString: $fullTime")
+//        Log.d("-------------", "getIcon: allTime: $allTimes")
+//
+//        return when {
+//            allTimes.fajr == fullTime -> 0
+//            allTimes.thuhr == fullTime -> 2
+//            allTimes.assr == fullTime -> 3
+//            allTimes.maghrib == fullTime -> 4
+//            allTimes.ishaa == fullTime -> 5
+//            else -> 0
+//        }
+//
+//    }
 
     fun setIcon() {
-        getIcon()
         val date = DateUtils()
-        var icon = getIcon()
-        var allTimes = timeHelper.getAllTimes()
-        Log.d("-------------", "onResume: icon $icon")
+        val icon = PartOfDayUtils()
 
-        when (icon) {
+        val allTimes = timeHelper.getAllTimes()
+//        Log.d("-------------", "onResume: icon $icon")
+
+        when (icon.getPart(requireContext())) {
             0 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_subah_prayer)
                 binding.prayerTimeName.text = "Bomdod"
+//                NAMOZ_VAQTI = "BOMDOD"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
             }
             2 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTimeName.text = "Peshin"
+//                NAMOZ_VAQTI = "PESHIN"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
             }
             3 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTimeName.text = "Asr"
+//                NAMOZ_VAQTI = "ASR"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
             }
             4 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
                 binding.prayerTimeName.text = "Shom"
+//                NAMOZ_VAQTI = "SHOM"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
             }
             5 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTimeName.text = "Xufton"
+//                NAMOZ_VAQTI = "XUFTON"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
             }
         }
@@ -249,7 +256,7 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
             location.latitude = latitudeSt.toDouble()
             location.longitude = longtitudeSt.toDouble()
         }
-        Log.d(TAG, "getSavedLocation: ${location?.latitude}")
+//        Log.d(TAG, "getSavedLocation: ${location?.latitude}")
         return location
     }
 

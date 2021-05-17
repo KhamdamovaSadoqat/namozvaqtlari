@@ -1,3 +1,4 @@
+
 package com.example.namozvaqtlari.notification
 
 import android.app.*
@@ -5,18 +6,25 @@ import android.app.Notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.location.Location
 import android.media.RingtoneManager
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.constants.*
 import com.example.namozvaqtlari.helper.TimeHelper
+import com.example.namozvaqtlari.ui.home.HomeFragment
 import com.example.namozvaqtlari.ui.mainActivity.MainActivity
+import com.example.namozvaqtlari.utils.DateUtils
+import com.example.namozvaqtlari.utils.PartOfDayUtils
 import java.util.*
 import kotlin.time.days
 
@@ -32,7 +40,8 @@ const val NOTIFICATION_ID = 1000
 class AlarmReceiver : BroadcastReceiver() {
 
     private val TAG = AlarmReceiver::class.java.simpleName
-
+    val timeNotification: Long = 0
+    
     override fun onReceive(context: Context?, intent: Intent?) {
 
 //        val alarm = intent?.getBundleExtra(BUNDLE_EXTRA)?.getString(ALARM_KEY)
@@ -41,28 +50,52 @@ class AlarmReceiver : BroadcastReceiver() {
 //            return
 //        }
 
-        val manager =
-            context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
+        val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel(context)
+        var dataUtils = DateUtils()
+        var mBitmap: Bitmap? = null
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        var time = dataUtils.longToHoursAndMinutes(TIME)
+        val timepart = PartOfDayUtils()
+        val part = timepart.getPart(context)
+        Log.d("-------------", "onReceive: time: $time")
+        Log.d("-------------", "onReceive: TIME: $TIME")
 
-        val builder =
-            NotificationCompat.Builder(context, CHANNEL_ID)
+
+        mBitmap = ContextCompat.getDrawable(
+            context,
+            R.drawable.ic_ramadn_azhar
+        )?.toBitmap()
+
+
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+        builder.setShowWhen(true)
+        builder.setLargeIcon(mBitmap)
         builder.color = ContextCompat.getColor(context, R.color.white)
-        builder.setContentTitle(context.getString(R.string.app_name))
-        builder.setContentText("Sample text")
-        builder.setTicker("Prayer time")
+        builder.setContentTitle("Namoz Vaqti")
+
         builder.setVibrate(longArrayOf(1000, 500, 1000, 500, 1000, 500))
         builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
         builder.setContentIntent(launchAlarmLandingPage(context))
         builder.setAutoCancel(true)
         builder.priority = Notification.PRIORITY_HIGH
+//        builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+//        builder.setCustomContentView(notificationLayout)
+//        builder.setCustomBigContentView(notificationLayoutExpanded)
 
+        when(part){
+            2 -> builder.setContentText("Bomdod  --  $time")
+            3 -> builder.setContentText("Peshin  --  $time")
+            4 -> builder.setContentText("Asr  --  $time")
+            5 -> builder.setContentText("Shom  --  $time")
+            0 -> builder.setContentText("Xufton  --  $time")
+        }
+        Log.d("-------------", "onReceive: $part")
         manager.notify(NOTIFICATION_ID, builder.build())
 
         //Reset Alarm manually
         setRemainderAlarm(context)
+//        Log.d("-------------", "onReceive: working")
 
     }
 
@@ -109,7 +142,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         fun setAlarm(context: Context) {
             if(NOTIFICATION_ENABLED){
-                Log.d("------------", "setAlarm: working")
+//                Log.d("------------", "setAlarm: working")
                 cancelReminderAlarm(context)
                 setRemainderAlarm(context)
             }
@@ -118,6 +151,7 @@ class AlarmReceiver : BroadcastReceiver() {
         private fun setRemainderAlarm(context: Context) {
             //do some code
             val time = TimeHelper(getLocFromPrefs(context)).getAlarmTime()
+            TIME = time
             val intent = Intent(context, AlarmReceiver::class.java)
             val bundle = Bundle()
             bundle.putLong(ALARM_KEY, time)
@@ -129,10 +163,11 @@ class AlarmReceiver : BroadcastReceiver() {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
             var data = Date(time)
-            Log.d("-----------", "setRemainderAlarm: time: ${data.hours}: ${data.minutes}, day: ${data.date}")
+//            Log.d("-----------", "setRemainderAlarm: time: ${data.hours}: ${data.minutes}, day: ${data.date}")
             ScheduleAlarm.with(context).schedule(time, pIntent)
-            Log.d("-------------", "setRemainderAlarm: ")
-//            val currentTime = System.currentTimeMillis() + 5000
+//            Log.d("-------------", "setRemainderAlarm: ")
+
+//            val currentTime = System.currentTimeMillis()+2000
 //            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
         }
 
@@ -141,7 +176,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val lat = prefs.getString(LATITUDE, "")
             val long = prefs.getString(LONGITUDE, "")
 
-            Log.d("AlarmReceiver", "getLocFromPrefs: lat: $lat long: $long")
+//            Log.d("AlarmReceiver", "getLocFromPrefs: lat: $lat long: $long")
 
             if (!lat.isNullOrEmpty() && !long.isNullOrEmpty()) {
                 val location = Location("")
@@ -178,8 +213,8 @@ class AlarmReceiver : BroadcastReceiver() {
         private val am: AlarmManager
     ) {
         fun schedule(time: Long, pi: PendingIntent?) {
-            Log.d("--------", "schedule: working")
-            Log.d("--------", "schedule: time: $time")
+//            Log.d("--------", "schedule: working")
+//            Log.d("--------", "schedule: time: $time")
             am.setExact(AlarmManager.RTC_WAKEUP, time, pi)
         }
 

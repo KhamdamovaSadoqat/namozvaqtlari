@@ -33,7 +33,7 @@ class App : Application() {
             }
             else Variables.isNetworkAvailable .postValue(false)
 
-            Log.d("-------------", "onCreate: $net")
+//            Log.d("-------------", "onCreate: $net")
     }
 
         

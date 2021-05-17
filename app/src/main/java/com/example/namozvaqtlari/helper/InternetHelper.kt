@@ -25,10 +25,7 @@ class InternetHelper(val context: Context) {
             val actveNetwork: NetworkCapabilities = connectivityManager.getNetworkCapabilities(
                 network
             ) ?: return false
-            Log.d(
-                TAG,
-                "checkInternetConnection: ${actveNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)}"
-            )
+//            Log.d(TAG, "checkInternetConnection: ${actveNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)}")
             return when {
                 actveNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 actveNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true

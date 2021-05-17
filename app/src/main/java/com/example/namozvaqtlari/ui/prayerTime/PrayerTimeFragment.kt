@@ -10,9 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -26,12 +23,7 @@ import com.example.namozvaqtlari.helper.TimeHelper
 import com.example.namozvaqtlari.model.Times
 import com.example.namozvaqtlari.utils.DateUtils
 import java.util.*
-import kotlin.math.log
-import  android.R.color.white
 import android.content.res.ColorStateList
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 
 
 class PrayerTimeFragment : Fragment() {
@@ -42,6 +34,7 @@ class PrayerTimeFragment : Fragment() {
     private lateinit var locHelper: LocationHelper
     private lateinit var prefs: SharedPreferences
     private lateinit var timeHelper: TimeHelper
+    private val date = DateUtils()
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -53,30 +46,29 @@ class PrayerTimeFragment : Fragment() {
         locHelper = LocationHelper(requireActivity())
         prefs = requireActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE)
         val location = getSavedLocation()
-        Log.d("-------------", "onCreateView: location: $location")
+//        Log.d("-------------", "onCreateView: location: $location")
         location?.let { loc ->
-            Log.d("------------", "onCreateView: ${loc.latitude}, ${loc.longitude}")
+//            Log.d("------------", "onCreateView: ${loc.latitude}, ${loc.longitude}")
             val time = viewModel.getDate(loc)
-            Log.d("------------", "onCreateView: ${time}")
+//            Log.d("------------", "onCreateView: ${time}")
             setTime(time)
         }
 
         timeHelper = location?.let { TimeHelper(it) }!!
 
-        Log.d("-------------", "onCreateView: getAlarmTime: ${timeHelper.getAlarmTime()}")
-        Log.d("-------------", "onCreateView: currentTimeM: ${System.currentTimeMillis()}")
+//        Log.d("-------------", "onCreateView: getAlarmTime: ${timeHelper.getAlarmTime()}")
+//        Log.d("-------------", "onCreateView: currentTimeM: ${System.currentTimeMillis()}")
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         getIcon()
-        val date = DateUtils()
         val allTimes = timeHelper.getAllTimes()
         val icon = getIcon()
 
         binding.constrainLayout
-        Log.d("-------------", "onResume: icon $icon")
+//        Log.d("-------------", "onResume: icon $icon")
 
         when (icon) {
             0 -> {
@@ -148,7 +140,7 @@ class PrayerTimeFragment : Fragment() {
         val assr = time.assr.split(":")
         val maghrib = time.maghrib.split(":")
         val ishaa = time.ishaa.split(":")
-        Log.d(TAG, "time date: $time")
+//        Log.d(TAG, "time date: $time")
 
         binding.timeFajr.text = "${fajr[0]}:${fajr[1]}"
         binding.timeShuruq.text = "${shuruq[0]}:${shuruq[1]}"
@@ -170,28 +162,31 @@ class PrayerTimeFragment : Fragment() {
             location.latitude = 41.311081
             location.longitude = 69.240562
         }
-        Log.d(TAG, "getSavedLocation: ${location.latitude}")
+//        Log.d(TAG, "getSavedLocation: ${location.latitude}")
         return location
     }
 
-    fun getIcon(): Int {
-        var exactTime = timeHelper.getAlarmTime()
-        var allTimes = timeHelper.getAllTimes()
-
+    private fun getIcon(): Int {
+        val exactTime = timeHelper.getAlarmTime()
+        val allTimes = timeHelper.getAllTimes()
+        val dataUtils = DateUtils()
         val date = Calendar.getInstance()
+
         date.timeInMillis = exactTime
+        val fullTime = dataUtils.timeToTextWithoutMinus(date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE), 0)
 
-        val timeString = "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00"
-        Log.d("-------------", "getIcon: exactTime: $exactTime")
-        Log.d("-------------", "getIcon: timeString: $timeString")
-        Log.d("-------------", "getIcon: allTime: $allTimes")
+//        Log.d("-------------", "getIcon: exactTime: $exactTime")
+//        Log.d("-------------", "getIcon: timeString: $fullTime")
+//        Log.d("-------------", "getIcon: allTime: $allTimes")
 
-        if (allTimes.fajr == timeString) return 0
-        else if (allTimes.thuhr == timeString) return 2
-        else if (allTimes.assr == timeString) return 3
-        else if (allTimes.maghrib == timeString) return 4
-        else if (allTimes.ishaa == timeString) return 5
+        return when {
+            allTimes.fajr == fullTime -> 0
+            allTimes.thuhr == fullTime -> 2
+            allTimes.assr == fullTime -> 3
+            allTimes.maghrib == fullTime -> 4
+            allTimes.ishaa == fullTime -> 5
+            else -> 0
+        }
 
-        return 0
     }
 }

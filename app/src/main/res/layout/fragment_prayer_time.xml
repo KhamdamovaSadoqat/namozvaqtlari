@@ -215,14 +215,14 @@
                 <ImageView
                     android:id="@+id/icon_maghrib"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_maghrib_prayer" />
 
                 <TextView
                     android:id="@+id/name_maghrib"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:text="Shom"
