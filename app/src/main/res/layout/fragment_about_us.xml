@@ -75,21 +75,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:gravity="center">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/ib_facebook"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginHorizontal="8dp"
                 android:background="@drawable/ic_facebook" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/ib_telegram"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginHorizontal="8dp"
                 android:background="@drawable/ic_telegram" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/ib_instagram"
                 android:layout_width="32dp"
                 android:layout_height="32dp"

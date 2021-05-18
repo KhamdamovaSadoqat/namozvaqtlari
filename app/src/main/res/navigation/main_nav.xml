@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_aboutUsFragment"
             app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
 
     <fragment
@@ -121,5 +124,10 @@
         android:id="@+id/aboutUsFragment"
         android:name="com.example.namozvaqtlari.ui.settings.AboutUsFragment"
         android:label="AboutUsFragment" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.namozvaqtlari.ui.settings.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help" />
 
 </navigation>

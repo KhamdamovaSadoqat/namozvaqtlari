@@ -70,20 +70,16 @@ class CompassFragment : Fragment(), SensorEventListener {
                 .setPositiveButton(
                     "ok"
                 ) { _: DialogInterface, _: Int -> findNavController().popBackStack() }
-                .setOnDismissListener { findNavController().popBackStack() }
+                .setOnDismissListener { }
                 .show()
-
         }
-
 //        Log.d("CompassFragment:", "sensorManager $sensorManager")
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
         getSavedLocation()
-
         sensorManager.registerListener(
             this,
             sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),

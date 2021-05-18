@@ -10,4 +10,15 @@
     <string name="hijri">Hijri</string>
     <string name="_00_00">00:00</string>
     <string name="mosque">Mosque</string>
+    <string name="help_qibla">Qibla ishlashida xatolik bormi?</string>
+    <string name="help_qibla_javob">Qibla oynasiga kirib telefoningizda
+        kompas ishlatishdan oldin uni kolibirovka qilib yuboring, yani telefoningizni cheksizlik
+        belgisi (∞) korinishida aylantiring.</string>
+    <string name="help_vaqt">Asosiy oynadagi vaqtlar</string>
+    <string name="help_vaqt_sekundomer_javob">Asosiy oynadagi kichik sekundomer kelayotgan namoz vaqtiga
+        qolgan vaqtni korsatib turadi.</string>
+    <string name="help_vaqt_javob">Katta vaqt esa kelayotgan namoz vaqtini korsatib turadi.</string>
+    <string name="help_tasbeh">Tasbeh oynadagi malumot</string>
+    <string name="help_tasbeh_javob">Tasbeh oynasidagi kichik dumaloq belgi sanoqni qayna nolga (0)ga
+        ornatib qoyadi.</string>
 </resources>

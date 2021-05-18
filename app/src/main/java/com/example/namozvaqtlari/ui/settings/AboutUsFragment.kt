@@ -39,9 +39,12 @@ class AboutUsFragment : Fragment() {
                     packageManager.getPackageInfo("com.facebook.katana", 0).versionCode
                 if (versionCode >= 3002850) { //newer versions of fb app
                     "fb://facewebmodal/f?href=$FACEBOOK_URL"
-                } else { //older versions of fb app
-                    "fb://page/$FACEBOOK_PAGE_ID"
                 }
+                else { //older versions of fb app
+//                    "fb://page/$FACEBOOK_PAGE_ID"
+                    "fb://facewebmodal/f?href=$FACEBOOK_URL"
+                }
+
             } catch (e: PackageManager.NameNotFoundException) {
                 FACEBOOK_URL //normal web url
             }

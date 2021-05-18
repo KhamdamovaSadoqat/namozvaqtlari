@@ -42,7 +42,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.yordam.setOnClickListener {
-
+            findNavController().navigate(R.id.action_settingsFragment_to_helpFragment)
         }
         binding.bizHaqimizda.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
