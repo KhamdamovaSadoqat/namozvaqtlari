@@ -73,11 +73,43 @@ class TimeHelper(private val location: Location) {
 //                    cal.get(Calendar.MINUTE)
 //                }"
 //            )
+            Log.d("-------------", "getAlarmTime: now: $now")
+            Log.d("-------------", "getAlarmTime: cal: ${cal.timeInMillis}")
             if (cal.timeInMillis > now) return cal.timeInMillis
         }
-        cal.set(year, month, day, times[5].hour, times[5].minute)
+        cal.set(year, month, day+1, times[0].hour, times[0].minute)
+        Log.d("-------------", "getAlarmTime: ${cal.timeInMillis}")
 
         return cal.timeInMillis
+    }
+
+    fun getAlarmTimeOneBefore(): Int {
+        val year = mCalendar.get(Calendar.YEAR)
+        val month = mCalendar.get(Calendar.MONTH)
+        val day = mCalendar.get(Calendar.DATE)
+        val cal = mCalendar
+        val now = Date().time
+        var flag = 6
+        (times.indices).forEach loop@{
+            flag = it
+            if (it == 1) return@loop
+            if(flag == 0) flag = 6
+            if(flag == 2) flag = 1
+            Log.d("-------------", "getAlarmTimeOneBefore: flag: $flag")
+            Log.d("-------------", "getAlarmTimeOneBefore: it: $it")
+            cal.set(year, month, day, times[it].hour, times[it].minute, times[it].second)
+//            Log.d(
+//                "------------",
+//                "getAlarmTime: ${cal.get(Calendar.DAY_OF_MONTH)}  ${cal.get(Calendar.HOUR_OF_DAY)} ${
+//                    cal.get(Calendar.MINUTE)
+//                }"
+//            )
+            if (cal.timeInMillis > now) return flag-1
+        }
+        cal.set(year, month, day+1, times[0].hour, times[0].minute)
+        Log.d("-------------", "getAlarmTime: ${cal.timeInMillis}")
+
+        return flag
     }
 
     fun getAllTimes(): Times {

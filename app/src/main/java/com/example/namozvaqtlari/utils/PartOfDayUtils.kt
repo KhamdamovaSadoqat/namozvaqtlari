@@ -14,7 +14,6 @@ class PartOfDayUtils {
     private var location: Location? = null
 
     fun getPart(context: Context): Int {
-
         location = savedPrefs.getSavedLocation(context)
         timeHelper = location?.let { TimeHelper(it) }?: TimeHelper(DEFAULT_LOCATION)
         var exactTime = timeHelper.getAlarmTime()
@@ -37,6 +36,30 @@ class PartOfDayUtils {
             allTimes.ishaa == fullTime -> 5
             else -> 0
         }
+    }
 
+    fun getPartNotification(context: Context): Int {
+        location = savedPrefs.getSavedLocation(context)
+        timeHelper = location?.let { TimeHelper(it) }?: TimeHelper(DEFAULT_LOCATION)
+        var exactTime = timeHelper.getAlarmTime()
+        var allTimes = timeHelper.getAllTimes()
+        var dataUtils = DateUtils()
+        val date = Calendar.getInstance()
+
+        date.timeInMillis = exactTime
+
+        var fullTime = dataUtils.timeToTextWithMinutesAndSeconds("${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00")
+        Log.d("-------------", "getIcon: exactTime: $exactTime")
+        Log.d("-------------", "getIcon: timeString: $fullTime")
+        Log.d("-------------", "getIcon: allTime: $allTimes")
+
+        return when {
+            allTimes.fajr == fullTime -> 0
+            allTimes.thuhr == fullTime -> 2
+            allTimes.assr == fullTime -> 3
+            allTimes.maghrib == fullTime -> 4
+            allTimes.ishaa == fullTime -> 5
+            else -> 0
+        }
     }
 }

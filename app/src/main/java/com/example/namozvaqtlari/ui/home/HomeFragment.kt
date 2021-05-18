@@ -262,18 +262,18 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         val exactTime = timeHelper.getAlarmTime()
         var settingTime = exactTime - currentTime
 
-//        Log.d("-------------", "setTime: currentTime: $currentTime")
-//        Log.d("-------------", "setTime: exactTime  : $exactTime")
-//        Log.d("-------------", "setTime: settingTime: $settingTime")
+        Log.d("-------------", "setTime: currentTime: $currentTime")
+        Log.d("-------------", "setTime: exactTime  : $exactTime")
+        Log.d("-------------", "setTime: settingTime: $settingTime")
 
 //        binding.chronometer.text = "${timeFormat.format(settingTime)}"
         val h = (settingTime/3600000).toInt()
         val m = ((settingTime - h * 3600000) / 60000).toInt()
         val s = ((settingTime - h * 3600000 - m* 60000) / 1000 ).toInt()
 
-//        Log.d("-------------", "setTime: h: $h")
-//        Log.d("-------------", "setTime: m: $m")
-//        Log.d("-------------", "setTime: s: $s")
+        Log.d("-------------", "setTime: h: $h")
+        Log.d("-------------", "setTime: m: $m")
+        Log.d("-------------", "setTime: s: $s")
 
         binding.chronometer.text = date.timeToText(h, m, s)
 

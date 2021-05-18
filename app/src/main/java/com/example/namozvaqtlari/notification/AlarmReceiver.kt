@@ -6,7 +6,6 @@ import android.app.Notification
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.location.Location
 import android.media.RingtoneManager
@@ -14,19 +13,16 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
-import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.constants.*
 import com.example.namozvaqtlari.helper.TimeHelper
-import com.example.namozvaqtlari.ui.home.HomeFragment
 import com.example.namozvaqtlari.ui.mainActivity.MainActivity
 import com.example.namozvaqtlari.utils.DateUtils
 import com.example.namozvaqtlari.utils.PartOfDayUtils
 import java.util.*
-import kotlin.time.days
 
 
 const val CHANNEL_ID = "alarm_channel"
@@ -51,16 +47,29 @@ class AlarmReceiver : BroadcastReceiver() {
 //        }
 
         val manager = context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel(context)
-        var dataUtils = DateUtils()
-        var mBitmap: Bitmap? = null
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-        var time = dataUtils.longToHoursAndMinutes(TIME)
-        val timepart = PartOfDayUtils()
-        val part = timepart.getPart(context)
-        Log.d("-------------", "onReceive: time: $time")
-        Log.d("-------------", "onReceive: TIME: $TIME")
+        var mBitmap: Bitmap? = null
+        val timeHelper = TimeHelper(getLocFromPrefs(context))
+        createNotificationChannel(context)
 
+
+        var timeFlag = getDate(context)
+        val time = timeHelper.getAllTimes()
+        val dataUtil = DateUtils()
+//        val timepart = PartOfDayUtils()
+//        val part = timepart.getPartNotification(context)
+        Log.d("-------------", "onReceive: time: $time")
+//        Log.d("-------------", "onReceive: part: $part")
+
+        //        return when(timeFlag){
+//            //fajr=3:29:00, shuruq=5:01:00, thuhr=12:20:00, assr=17:26:00, maghrib=19:38:00, ishaa=21:10:00
+//            0 ->
+//            2 ->
+//            3 ->
+//            4 ->
+//            5 ->
+//            else -> dataUtil.timeToTextWithHourAndMinutes(time.fajr)
+//        }
 
         mBitmap = ContextCompat.getDrawable(
             context,
@@ -83,30 +92,29 @@ class AlarmReceiver : BroadcastReceiver() {
 //        builder.setCustomContentView(notificationLayout)
 //        builder.setCustomBigContentView(notificationLayoutExpanded)
 
-        when(part){
-
+        when(timeFlag){
             0 -> {
-                builder.setContentText("Bomdod  --  $time")
+                builder.setContentText("Bomdod  --  ${dataUtil.timeToTextWithHourAndMinutes(time.fajr)}")
                 mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_subah_prayer)?.toBitmap()
             }
             2 -> {
-                builder.setContentText("Peshin  --  $time")
+                builder.setContentText("Peshin  --  ${dataUtil.timeToTextWithHourAndMinutes(time.thuhr)}")
                 mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_zuhar_prayer)?.toBitmap()
             }
             3 -> {
-                builder.setContentText("Asr  --  $time")
+                builder.setContentText("Asr  --  ${dataUtil.timeToTextWithHourAndMinutes(time.assr)}")
                 mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_ramadn_azhar)?.toBitmap()
             }
             4 -> {
-                builder.setContentText("Shom  --  $time")
+                builder.setContentText("Shom  --  ${dataUtil.timeToTextWithHourAndMinutes(time.maghrib)}")
                 mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_maghrib_prayer)?.toBitmap()
             }
             5 -> {
-                builder.setContentText("Xufton  --  $time")
+                builder.setContentText("Xufton  --  ${dataUtil.timeToTextWithHourAndMinutes(time.ishaa)}")
                 mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_isha_prayer)?.toBitmap()
             }
         }
-        Log.d("-------------", "onReceive: $part")
+//        Log.d("-------------", "onReceive: $part")
         builder.setLargeIcon(mBitmap)
         manager.notify(NOTIFICATION_ID, builder.build())
 
@@ -116,6 +124,13 @@ class AlarmReceiver : BroadcastReceiver() {
 
     }
 
+    private fun getDate(context: Context): Int{
+        val timeHelper = TimeHelper(getLocFromPrefs(context))
+        val timeFlag = timeHelper.getAlarmTimeOneBefore()
+
+        Log.d("-------------", "getDate: timflag: $timeFlag")
+        return timeFlag
+    }
 
 
     private fun createNotificationChannel(context: Context) {
@@ -155,6 +170,7 @@ class AlarmReceiver : BroadcastReceiver() {
         return i
     }
 
+
     companion object {
 
         fun setAlarm(context: Context) {
@@ -169,6 +185,8 @@ class AlarmReceiver : BroadcastReceiver() {
             //do some code
             val time = TimeHelper(getLocFromPrefs(context)).getAlarmTime()
             TIME = time
+            Log.d("-------------", "setRemainderAlarm: time: $time")
+            Log.d("-------------", "setRemainderAlarm: TIME: $TIME")
             val intent = Intent(context, AlarmReceiver::class.java)
             val bundle = Bundle()
             bundle.putLong(ALARM_KEY, time)
