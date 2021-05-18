@@ -140,14 +140,15 @@ class PrayerTimeFragment : Fragment() {
         val assr = time.assr.split(":")
         val maghrib = time.maghrib.split(":")
         val ishaa = time.ishaa.split(":")
-//        Log.d(TAG, "time date: $time")
 
-        binding.timeFajr.text = "${fajr[0]}:${fajr[1]}"
-        binding.timeShuruq.text = "${shuruq[0]}:${shuruq[1]}"
-        binding.timeThuhr.text = "${thuhr[0]}:${thuhr[1]}"
-        binding.timeAssr.text = "${assr[0]}:${assr[1]}"
-        binding.timeMaghrib.text = "${maghrib[0]}:${maghrib[1]}"
-        binding.timeIshaa.text = "${ishaa[0]}:${ishaa[1]}"
+
+
+        binding.timeFajr.text = date.timeToTextWithHourAndMinutes("${fajr[0]}:${fajr[1]}")
+        binding.timeShuruq.text = date.timeToTextWithHourAndMinutes("${shuruq[0]}:${shuruq[1]}")
+        binding.timeThuhr.text = date.timeToTextWithHourAndMinutes("${thuhr[0]}:${thuhr[1]}")
+        binding.timeAssr.text = date.timeToTextWithHourAndMinutes("${assr[0]}:${assr[1]}")
+        binding.timeMaghrib.text = date.timeToTextWithHourAndMinutes("${maghrib[0]}:${maghrib[1]}")
+        binding.timeIshaa.text = date.timeToTextWithHourAndMinutes("${ishaa[0]}:${ishaa[1]}")
     }
 
     private fun getSavedLocation(): Location? {

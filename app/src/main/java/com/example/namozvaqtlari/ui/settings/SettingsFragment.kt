@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.example.namozvaqtlari.R
 import com.example.namozvaqtlari.constants.MY_PREFS
 import com.example.namozvaqtlari.constants.NOTIFICATION_ENABLED
@@ -40,11 +41,11 @@ class SettingsFragment : Fragment() {
             if (!isChecked) AlarmReceiver.cancelAlarm(requireContext())
         }
 
-        binding.secondConstraint.setOnClickListener {
+        binding.yordam.setOnClickListener {
 
         }
-        binding.thirdConstraint.setOnClickListener {
-
+        binding.bizHaqimizda.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_aboutUsFragment)
         }
     }
 

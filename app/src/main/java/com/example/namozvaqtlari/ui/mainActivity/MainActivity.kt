@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.namozvaqtlari.R
+import com.example.namozvaqtlari.constants.LOCATION_PERMISTON
 import com.example.namozvaqtlari.constants.LOCATION_REQ_CODE
 import com.example.namozvaqtlari.databinding.ActivityMainBinding
 import com.example.namozvaqtlari.helper.*
@@ -58,6 +59,10 @@ class MainActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED){
 //            locationHelper.showDialogGpsCheck()
             locationHelper.getLocationViaProviders()
+            LOCATION_PERMISTON = true
+        }
+        if(!LOCATION_PERMISTON && FINISH_FLAG == 1){
+            locationHelper.showDialogThirdTime()
         }
     }
 
@@ -69,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_REQ_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                LOCATION_PERMISTON = true
                 locationHelper.hasPermission = true
                 locationHelper.getCurrentLocationViaNetworkProvider()
                 locationHelper.getCurrentLocationViaGpsProvider()

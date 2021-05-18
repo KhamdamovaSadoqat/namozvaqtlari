@@ -23,11 +23,11 @@ class PartOfDayUtils {
         val date = Calendar.getInstance()
 
         date.timeInMillis = exactTime
-        var fullTime = dataUtils.timeToTextWithoutMinus(date.get(Calendar.HOUR_OF_DAY), date.get(
-            Calendar.MINUTE), 0)
-//        Log.d("-------------", "getIcon: exactTime: $exactTime")
-//        Log.d("-------------", "getIcon: timeString: $fullTime")
-//        Log.d("-------------", "getIcon: allTime: $allTimes")
+
+        var fullTime = dataUtils.timeToTextWithHourAndMinutesAndSeconds("${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}:00")
+        Log.d("-------------", "getIcon: exactTime: $exactTime")
+        Log.d("-------------", "getIcon: timeString: $fullTime")
+        Log.d("-------------", "getIcon: allTime: $allTimes")
 
         return when {
             allTimes.fajr == fullTime -> 0
@@ -35,7 +35,7 @@ class PartOfDayUtils {
             allTimes.assr == fullTime -> 3
             allTimes.maghrib == fullTime -> 4
             allTimes.ishaa == fullTime -> 5
-            else -> 6
+            else -> 0
         }
 
     }

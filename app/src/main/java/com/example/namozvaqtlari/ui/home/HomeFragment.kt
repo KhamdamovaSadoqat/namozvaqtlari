@@ -196,37 +196,32 @@ class HomeFragment : Fragment(), AdapterHome.RvItemListener {
         val icon = PartOfDayUtils()
 
         val allTimes = timeHelper.getAllTimes()
-//        Log.d("-------------", "onResume: icon $icon")
+        Log.d("-------------", "onResume: icon ${icon.getPart(requireContext())}")
 
         when (icon.getPart(requireContext())) {
             0 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_subah_prayer)
                 binding.prayerTimeName.text = "Bomdod"
-//                NAMOZ_VAQTI = "BOMDOD"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.fajr)
             }
             2 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_zuhar_prayer)
                 binding.prayerTimeName.text = "Peshin"
-//                NAMOZ_VAQTI = "PESHIN"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.thuhr)
             }
             3 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_ramadn_azhar)
                 binding.prayerTimeName.text = "Asr"
-//                NAMOZ_VAQTI = "ASR"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.assr)
             }
             4 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_maghrib_prayer)
                 binding.prayerTimeName.text = "Shom"
-//                NAMOZ_VAQTI = "SHOM"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.maghrib)
             }
             5 -> {
                 binding.prayerIconImg.setImageResource(R.drawable.ic_isha_prayer)
                 binding.prayerTimeName.text = "Xufton"
-//                NAMOZ_VAQTI = "XUFTON"
                 binding.homeTime.text = date.timeToTextWithHourAndMinutes(allTimes.ishaa)
             }
         }

@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/fragment_on_boarding_scene"
         app:showPaths="false"
-        android:background="@drawable/gradient_10"
+        android:background="@drawable/bg_1"
         tools:context=".ui.time.OnBoardingFragment"
         tools:ignore="MotionLayoutInvalidSceneFileReference">
 

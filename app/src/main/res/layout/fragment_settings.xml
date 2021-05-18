@@ -10,18 +10,29 @@
         tools:context=".ui.settings.SettingsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/first_constraint"
+            android:id="@+id/bildirirshnoma"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="16dp"
-            android:background="@drawable/rv_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageButton
+                android:id="@+id/ib_notification"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/ic_notification"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_notification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
             <TextView
-                android:id="@+id/text_view_notification"
+                android:id="@+id/tv_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -30,7 +41,7 @@
                 android:textColor="#3E3E3E"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ib_notification"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -45,18 +56,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/second_constraint"
+            android:id="@+id/yordam"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="16dp"
             android:orientation="horizontal"
-            android:background="@drawable/rv_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_constraint">
+            app:layout_constraintTop_toBottomOf="@+id/bildirirshnoma">
+
+            <ImageButton
+                android:id="@+id/ib_help"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/ic_help"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_help"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
             <TextView
-                android:id="@+id/text_view_help"
+                android:id="@+id/tv_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -65,23 +87,35 @@
                 android:textColor="#3E3E3E"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ib_help"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/third_constraint"
+            android:id="@+id/biz_haqimizda"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="16dp"
             android:orientation="horizontal"
-            android:background="@drawable/rv_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/second_constraint">
+            app:layout_constraintTop_toBottomOf="@+id/yordam">
+
+            <ImageButton
+                android:id="@+id/ib_about"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/ic_global_network"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_about"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
 
             <TextView
-                android:id="@+id/text_view_about"
+                android:id="@+id/tv_about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -90,7 +124,7 @@
                 android:textColor="#3E3E3E"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ib_about"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,7 +25,7 @@ class Notification(private val context: Context) {
     fun makeNotification() {
 
         val builder = NotificationCompat.Builder(context, "1")
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("Namoz vaqti")
             .setContentText("Namoz vaqti boldi")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

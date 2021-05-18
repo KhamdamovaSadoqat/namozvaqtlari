@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/gradient_8">
+        android:background="@drawable/gradient_6">
 
         <LinearLayout
             android:layout_width="match_parent"

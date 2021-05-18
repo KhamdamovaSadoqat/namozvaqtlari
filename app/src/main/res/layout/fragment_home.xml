@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/rv_bg"
+            android:background="@drawable/bg_recycler_view"
             android:elevation="8dp"
             android:foregroundGravity="bottom"
             android:orientation="horizontal"

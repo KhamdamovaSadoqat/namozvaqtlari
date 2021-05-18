@@ -14,6 +14,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -75,21 +76,22 @@ class LocationHelper(private val activity: Activity) {
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(locationResult: Location) {
-//            Log.d(TAG, "before location check: ${locationResult.latitude}")
+            Log.d(TAG, "before location check: ${locationResult.latitude}")
             if (location != null) {
                 val distance = locationResult.distanceTo(location)
-//                Log.d(TAG, "location is not null onLocationChanged: ${locationResult.latitude}")
-                if (distance > 50000) {
+                Log.d(TAG, "location is not null onLocationChanged: ${locationResult.latitude}")
+//                if (distance > 5000) {
                     location = locationResult
                     locationObservable.value = locationResult
+                    Log.d(TAG, "onLocationChanged: ${locationResult.latitude}")
                     savePrefs()
-                }
+//                }
             } else {
-//                Log.d(TAG, "location is null onLocationChanged: ${locationResult.latitude}")
-//                location = locationResult
-//                locationObservable.value = locationResult
-//                Log.d(TAG, "onLocationChanged: ${locationResult.latitude}")
-//                savePrefs()
+                Log.d(TAG, "location is null onLocationChanged: ${locationResult.latitude}")
+                location = locationResult
+                locationObservable.value = locationResult
+                Log.d(TAG, "onLocationChanged: ${locationResult.latitude}")
+                savePrefs()
             }
         }
 
@@ -159,7 +161,7 @@ class LocationHelper(private val activity: Activity) {
         if (this::dialog.isInitialized)
             dialog.dismiss()
         dialog = AlertDialog.Builder(activity)
-            .setMessage("Sozlamalar bo'limiga kirib ilovani ichidan locationga ruxsat bering!")
+            .setMessage("Sozlamalar bo'limiga kirib, ushbu ilovani topib, ruxsatlar ichidan joylashuvga ruxsat bering!")
             .setCancelable(false)
             .setPositiveButton(
                 "Sozlamalarni ochish"

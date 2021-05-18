@@ -37,7 +37,7 @@ class Tasbih @JvmOverloads constructor(
     init {
         mBitmap = ContextCompat.getDrawable(
             context,
-            R.drawable.tasbih
+            R.drawable.cv_tasbih
         )?.toBitmap()
         mListYPos = arrayListOf(
             0 * dp,

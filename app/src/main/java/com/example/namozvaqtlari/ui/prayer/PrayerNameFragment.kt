@@ -105,7 +105,7 @@ class PrayerNameFragment : Fragment(), AdapterHome.RvItemListener {
                 8,
                 "Sayohat",
                 requireContext().let {
-                    ContextCompat.getDrawable(it, R.drawable.ic_camel_facing_left)
+                    ContextCompat.getDrawable(it, R.drawable.ic_treasure_map)
                 }!!
             ),
             HomeItem(

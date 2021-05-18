@@ -68,9 +68,9 @@ class AlarmReceiver : BroadcastReceiver() {
         )?.toBitmap()
 
 
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+        builder.setSmallIcon(R.mipmap.ic_logo)
         builder.setShowWhen(true)
-        builder.setLargeIcon(mBitmap)
+
         builder.color = ContextCompat.getColor(context, R.color.white)
         builder.setContentTitle("Namoz Vaqti")
 
@@ -84,13 +84,30 @@ class AlarmReceiver : BroadcastReceiver() {
 //        builder.setCustomBigContentView(notificationLayoutExpanded)
 
         when(part){
-            2 -> builder.setContentText("Bomdod  --  $time")
-            3 -> builder.setContentText("Peshin  --  $time")
-            4 -> builder.setContentText("Asr  --  $time")
-            5 -> builder.setContentText("Shom  --  $time")
-            0 -> builder.setContentText("Xufton  --  $time")
+
+            0 -> {
+                builder.setContentText("Bomdod  --  $time")
+                mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_subah_prayer)?.toBitmap()
+            }
+            2 -> {
+                builder.setContentText("Peshin  --  $time")
+                mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_zuhar_prayer)?.toBitmap()
+            }
+            3 -> {
+                builder.setContentText("Asr  --  $time")
+                mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_ramadn_azhar)?.toBitmap()
+            }
+            4 -> {
+                builder.setContentText("Shom  --  $time")
+                mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_maghrib_prayer)?.toBitmap()
+            }
+            5 -> {
+                builder.setContentText("Xufton  --  $time")
+                mBitmap = ContextCompat.getDrawable(context, R.drawable.ic_isha_prayer)?.toBitmap()
+            }
         }
         Log.d("-------------", "onReceive: $part")
+        builder.setLargeIcon(mBitmap)
         manager.notify(NOTIFICATION_ID, builder.build())
 
         //Reset Alarm manually

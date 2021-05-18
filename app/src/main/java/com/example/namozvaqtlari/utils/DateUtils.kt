@@ -48,24 +48,43 @@ class DateUtils {
     }
 
     fun timeToTextWithHourAndMinutes(time: String): String{
-//        Log.d("-------------", "timeToTextWithHourAndMinutes: $time")
         val t = time.split(":")
         var hour = ""
         var minutes = ""
-//        Log.d("-------------", "timeToTextWithHourAndMinutes: ${t[0]}")
-//        Log.d("-------------", "timeToTextWithHourAndMinutes: ${t[1]}")
 
-        if(t[0].toInt()<10)  hour = "${t[0]}"
-        else if(t[0].toInt() == 0) hour = "0"
+        if(t[0].toInt()<10)  hour = "0${t[0].toInt()}"
+        else if(t[0].toInt() == 0) hour = "00"
         else hour = t[0]
 
-        if(t[1].toInt()<10) minutes = "${t[1]}"
-        else if(t[1].toInt()==0) minutes = "0"
+        if(t[1].toInt()<10)  minutes = "0${t[1].toInt()}"
+        else if(t[1].toInt() == 0) minutes = "00"
         else minutes = t[1]
 
         return "$hour:$minutes"
         //test passed
+    }
 
+    fun timeToTextWithHourAndMinutesAndSeconds(time: String): String{
+        val t = time.split(":")
+        var hour = ""
+        var minutes = ""
+        var seconds = ""
+
+        if(t[0].toInt()<10)  hour = "0${t[0].toInt()}"
+        else if(t[0].toInt() == 0) hour = "00"
+        else hour = t[0]
+
+        if(t[1].toInt()<10)  minutes = "0${t[1].toInt()}"
+        else if(t[1].toInt() == 0) minutes = "00"
+        else minutes = t[1]
+
+        if(t[2].toInt()<10)  seconds = "0${t[2].toInt()}"
+        else if(t[2].toInt() == 0) seconds = "00"
+        else seconds = t[1]
+
+
+        return "$hour:$minutes:$seconds"
+        //test passed
     }
     
     fun longToHoursAndMinutes(time: Long): String{

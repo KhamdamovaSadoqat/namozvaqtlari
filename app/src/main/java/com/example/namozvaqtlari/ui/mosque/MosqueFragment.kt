@@ -11,6 +11,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.location.Location
+import android.location.LocationListener
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,10 +26,11 @@ import com.directions.route.Route
 import com.directions.route.RouteException
 import com.directions.route.RoutingListener
 import com.example.namozvaqtlari.R
-import com.example.namozvaqtlari.constants.LOCATION_REQ_CODE
+import com.example.namozvaqtlari.constants.DEFAULT_LOCATION
 import com.example.namozvaqtlari.databinding.FragmentMosqueBinding
 import com.example.namozvaqtlari.helper.InternetHelper
 import com.example.namozvaqtlari.helper.LocationHelper
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
@@ -49,7 +50,7 @@ import java.util.*
 
 @Suppress("CAST_NEVER_SUCCEEDS", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListener,
-    GoogleMap.InfoWindowAdapter, GoogleMap.OnMyLocationButtonClickListener, RoutingListener {
+    GoogleMap.InfoWindowAdapter, GoogleMap.OnMyLocationButtonClickListener, RoutingListener, LocationListener {
 
     private lateinit var binding: FragmentMosqueBinding
     private var TAG = "MosqueFragment"
@@ -60,7 +61,6 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
     private val PROXIMITY_RADIUS = 5000
     private lateinit var locationHelper: LocationHelper
     private lateinit var latLng: LatLng
-    private var networkState = false
     private lateinit var internetHelper: InternetHelper
 
 
@@ -73,6 +73,7 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mosque, container, false)
         locationHelper = LocationHelper(requireActivity())
         locationHelper.getLocationViaProviders()
+        locationHelper.showDialogGpsCheck()
         locationHelper.getLocation().observe(viewLifecycleOwner) {
             Log.d(TAG, "onCreate: ${it.longitude}")
             Log.d(TAG, "onCreate: ${it.latitude}")
@@ -82,12 +83,28 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         binding.btnMosque.setOnClickListener(object : View.OnClickListener {
             var Mosque = "mosque"
             override fun onClick(v: View) {
-                Log.d("-------------", "onClick: cliced")
-                Log.d("-------------", "onClick: ${internetHelper.checkInternetConnection()}")
+                Log.d(
+                    "-------------",
+                    "onClick: internet:${internetHelper.checkInternetConnection()}"
+                )
                 if (internetHelper.checkInternetConnection()) {
-                    Log.d(TAG, "Variables: $networkState")
                     mMap.clear()
-                    val url = getUrl(latLng.latitude, latLng.longitude, Mosque)
+                    val url: String
+                    if (this@MosqueFragment::latLng.isInitialized) {
+                        url = getUrl(latLng.latitude, latLng.longitude, Mosque)
+                        Log.d("-------------", "onClick: location: ${latLng.latitude}, ${latLng.longitude}")
+                    } else {
+                        url = getUrl(
+                            DEFAULT_LOCATION.latitude,
+                            DEFAULT_LOCATION.longitude,
+                            Mosque
+                        )
+                        Log.d("-------------", "onClick: location: ${DEFAULT_LOCATION.latitude}, ${DEFAULT_LOCATION.longitude}")
+                        //onClick: location: 41.2825125, 69.1392814 // without
+                        //onClick: location: 41.2636918, 69.2036243 //with network
+                        //onClick: location: 41.2825125, 69.2036243 //with network
+                    }
+
                     val DataTransfer = arrayOfNulls<Any>(2)
                     DataTransfer[0] = mMap
                     DataTransfer[1] = url
@@ -137,21 +154,34 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d("-------------", "onMapReady: lat: ${latLng.latitude}, long: ${latLng.longitude}")
+//        Log.d("-------------", "onMapReady: lat: ${latLng.latitude}, long: ${latLng.longitude}")
         mMap = googleMap
-        mMap.addMarker(
-            MarkerOptions()
-                .position(latLng)
-                .title(Place.Field.ADDRESS.toString())
-        )
+//        mMap.addMarker(
+//            MarkerOptions()
+//                .position(latLng)
+//                .title(Place.Field.ADDRESS.toString())
+//        )
 
+        mMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    DEFAULT_LOCATION.latitude,
+                    DEFAULT_LOCATION.longitude
+                ), 13F
+            )
+        )
+        if(this::latLng.isInitialized) mMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                latLng,
+                13F
+            )
+        )
         Log.d(TAG, "onMapReady: ${Place.Field.ADDRESS}")
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15F))
         mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.setOnMapClickListener(this)
+//        mMap.setOnMapClickListener(this)
         mMap.setInfoWindowAdapter(this)
 //        mMap.setOnMyLocationButtonClickListener(this)
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15F))
@@ -245,9 +275,11 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         return null
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMyLocationButtonClick(): Boolean {
+        Log.d("-------------", "onMyLocationButtonClick: working!")
         getPlacesInfo()
-        return false
+        return true
     }
 
     override fun onRoutingFailure(exception: RouteException?) {
@@ -276,29 +308,16 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         Log.d(TAG, "onRoutingCancelled: routing cancelled")
     }
 
+    @SuppressLint("MissingPermission")
     private fun enableLocation() {
-        if (sIsPermissionGranted) {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
-            mMap.isMyLocationEnabled = true
-            mMap.uiSettings.isMyLocationButtonEnabled = true
-            mMap.setOnMyLocationClickListener {
-
-                mLocation = it
-                Log.d(TAG, "enableLocation: $mLocation")
-            }
-        } else {
-            requestPermission()
+        mMap.isMyLocationEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+        mMap.setOnMyLocationClickListener {
+            latLng = LatLng(it.latitude, it.longitude)
+            Log.d("-------------", "enableLocation: $latLng")
+            mLocation = it
+            Log.d(TAG, "enableLocation: $mLocation")
         }
-
     }
 
     private fun requestPermission() {
@@ -320,7 +339,6 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
             )
 
         val request = FindCurrentPlaceRequest.newInstance(placeFiles)
-
         val placeResult = mPlacesClient.findCurrentPlace(request)
 
         placeResult.addOnCompleteListener { response ->
@@ -430,7 +448,14 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
             markerOptions.position(latLng)
             mMap.addMarker(
                 MarkerOptions()
-                    .icon(getMarkerIconFromDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.ic_location)!!))
+                    .icon(
+                        getMarkerIconFromDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_location
+                            )!!
+                        )
+                    )
                     .position(latLng)
                     .title(placeName.toString())
                     .snippet(vicinity.toString())
@@ -476,6 +501,26 @@ class MosqueFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMapClickListe
         background?.draw(canvas)
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    override fun onLocationChanged(location: Location) {
+        var mLastLocation = location
+
+        latLng = LatLng(location.latitude, location.longitude)
+
+        Log.d("-------------", "onLocationChanged: ${location.longitude}, ${location.longitude}")
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latLng)
+        markerOptions.title("Current Position")
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+//        mCurrLocationMarker = mGoogleMap.addMarker(markerOptions)
+
+        //move map camera
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11f))
+
     }
 
 
