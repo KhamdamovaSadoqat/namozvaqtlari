@@ -28,7 +28,6 @@ import kotlin.system.exitProcess
 var FINISH_FLAG = 0
 
 
-// TODO - Should do make more optimize LocationHelper.kt. Bacause of, every open the application ask turn on gps, although we have last location.
 class LocationHelper(private val activity: Activity) {
 
 
@@ -78,7 +77,7 @@ class LocationHelper(private val activity: Activity) {
         override fun onLocationChanged(locationResult: Location) {
             Log.d(TAG, "before location check: ${locationResult.latitude}")
             if (location != null) {
-                val distance = locationResult.distanceTo(location)
+//                val distance = locationResult.distanceTo(location)
                 Log.d(TAG, "location is not null onLocationChanged: ${locationResult.latitude}")
 //                if (distance > 5000) {
                     location = locationResult
