@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.location.Location
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
@@ -73,16 +74,17 @@ class AlarmReceiver : BroadcastReceiver() {
 
         mBitmap = ContextCompat.getDrawable(
             context,
-            R.drawable.ic_ramadn_azhar
+            R.mipmap.ic_logo_foreground
         )?.toBitmap()
 
 
-        builder.setSmallIcon(R.mipmap.ic_logo)
-        builder.setShowWhen(true)
 
+        builder.setSmallIcon(R.mipmap.ic_logo_foreground)
+        builder.setLargeIcon(mBitmap)
+        builder.setShowWhen(true)
         builder.color = ContextCompat.getColor(context, R.color.white)
         builder.setContentTitle("Namoz Vaqti")
-
+        builder.setChannelId(CHANNEL_ID)
         builder.setVibrate(longArrayOf(1000, 500, 1000, 500, 1000, 500))
         builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
         builder.setContentIntent(launchAlarmLandingPage(context))
@@ -202,8 +204,8 @@ class AlarmReceiver : BroadcastReceiver() {
             ScheduleAlarm.with(context).schedule(time, pIntent)
 //            Log.d("-------------", "setRemainderAlarm: ")
 
-//            val currentTime = System.currentTimeMillis()+2000
-//            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
+            val currentTime = System.currentTimeMillis()+2000
+            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
         }
 
         private fun getLocFromPrefs(context: Context): Location {
