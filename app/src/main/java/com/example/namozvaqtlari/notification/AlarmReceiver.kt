@@ -54,7 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
         createNotificationChannel(context)
 
 
-        var timeFlag = getDate(context)
+        val timeFlag = getDate(context)
         val time = timeHelper.getAllTimes()
         val dataUtil = DateUtils()
 //        val timepart = PartOfDayUtils()
@@ -199,13 +199,13 @@ class AlarmReceiver : BroadcastReceiver() {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
-            var data = Date(time)
+//            var data = Date(time)
 //            Log.d("-----------", "setRemainderAlarm: time: ${data.hours}: ${data.minutes}, day: ${data.date}")
             ScheduleAlarm.with(context).schedule(time, pIntent)
 //            Log.d("-------------", "setRemainderAlarm: ")
 
-            val currentTime = System.currentTimeMillis()+2000
-            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
+//            val currentTime = System.currentTimeMillis()+2000
+//            ScheduleAlarm.with(context).schedule(currentTime, pIntent)
         }
 
         private fun getLocFromPrefs(context: Context): Location {
